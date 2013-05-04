@@ -5,7 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.*;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -24,10 +26,10 @@ public class Connection {
     
 
     public boolean sendMessage(String recipient, String messageJson){
-    	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair(POST_RECIPIENT_FIELD_NAME, recipient));
-        nameValuePairs.add(new BasicNameValuePair(POST_MESSAGE_FIELD_NAME, messageJson));
-        return makePOSTrequest(nameValuePairs);
+    	List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+        params.add(new BasicNameValuePair(POST_RECIPIENT_FIELD_NAME, recipient));
+        params.add(new BasicNameValuePair(POST_MESSAGE_FIELD_NAME, messageJson));
+        return isResponseCorrect(makePOSTrequest(params, SEND_MSG_URL));
     }
 	
 /*	public boolean sendMessage(Message message){
@@ -35,21 +37,25 @@ public class Connection {
 		String messageJson = Message.toJson();
 		return sendMessage(recipientName, messageJson);
 	}*/
-	
-	private boolean makePOSTrequest(List<NameValuePair> params){		
+    
+    public String getNewMessages(String username){
+    	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+        nameValuePairs.add(new BasicNameValuePair(POST_RECIPIENT_FIELD_NAME, username));
+        HttpResponse response = makePOSTrequest(nameValuePairs, GET_MSGS_URL);
+        return responseToString(response);
+    }
+    
+	private HttpResponse makePOSTrequest(List<NameValuePair> params, String url){		
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(SEND_MSG_URL);
+		HttpPost httppost = new HttpPost(url);
 		try {
 	        httppost.setEntity(new UrlEncodedFormEntity(params));
-	        HttpResponse response = httpclient.execute(httppost);
-	        if (isResponseCorrect(response))
-	        	return true;	    	        	
+	        return httpclient.execute(httppost); 	
 	    } catch (ClientProtocolException e) {
-	        return false;
+	        return null;
 	    } catch (IOException e) {
-	        return false;
+	        return null;
 	    }
-		return false;
 	}
 	
 	private boolean isResponseCorrect(HttpResponse response){
