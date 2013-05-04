@@ -68,6 +68,8 @@ public class Connection {
 	}
 		
 	private String responseToString(HttpResponse response){
+		if(response == null)
+			return null;
 		HttpEntity entity = response.getEntity();
         {
         try {
@@ -75,7 +77,9 @@ public class Connection {
 				return streamToString(instream);
 			} catch (IOException e) {
 				return null;
-			}  		    
+			} catch (NullPointerException e){
+				return null;
+			}
   		}
 	}
 	
