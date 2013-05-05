@@ -33,11 +33,11 @@ public class Connection {
         return isResponseCorrect(makePOSTrequest(params, SEND_MSG_URL));
     }
 	
-/*	public boolean sendMessage(Message message){
+	public boolean sendMessage(Message message){
 		String recipientName = message.getRecipientName();
-		String messageJson = Message.toJson();
+		String messageJson = message.toJson();
 		return sendMessage(recipientName, messageJson);
-	}*/
+	}
     
     public String getNewMessages(String username){
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
