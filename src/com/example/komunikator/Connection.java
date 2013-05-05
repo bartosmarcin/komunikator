@@ -19,13 +19,24 @@ import org.apache.http.message.BasicNameValuePair;
 public class Connection {
 	private final String SEND_MSG_URL="http://iem.pw.edu.pl/~bartosm4/sendmsg.php";
     private final String GET_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/getmsg.php";
-    private final String hasNewMessegesURL="some string";
+    private final String HAS_NEW_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/hasnew.php";
     
     private final String POST_RECIPIENT_FIELD_NAME="recipient";
     private final String POST_MESSAGE_FIELD_NAME="message";    
-    private final String CORRECT_SERVER_RESPONSE="ok";
     
-
+    private final String CORRECT_SERVER_RESPONSE="ok";
+    private final String HAS_NEW_MSGS_RESPONSE="y";  
+    
+    public boolean hasNewMessages(String username){
+    	List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+    	params.add(0, new BasicNameValuePair("username", username) );
+    	HttpResponse resp = makePOSTrequest(params, HAS_NEW_MSGS_URL);
+    	String response = responseToString(resp);
+    	if(response.equals(HAS_NEW_MSGS_RESPONSE))
+    		return true;
+    	return false;
+    }
+    
     public boolean sendMessage(String recipient, String messageJson){
     	List<NameValuePair> params = new ArrayList<NameValuePair>(2);
         params.add(new BasicNameValuePair(POST_RECIPIENT_FIELD_NAME, recipient));
