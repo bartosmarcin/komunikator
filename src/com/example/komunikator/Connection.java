@@ -32,8 +32,8 @@ public class Connection {
     	params.add(0, new BasicNameValuePair("username", username) );
     	HttpResponse resp = makePOSTrequest(params, HAS_NEW_MSGS_URL);
     	String response = responseToString(resp);
-    	if(response.equals(HAS_NEW_MSGS_RESPONSE))
-    		return true;
+    	if( response != null )
+    		return response.equals(HAS_NEW_MSGS_RESPONSE);
     	return false;
     }
     
