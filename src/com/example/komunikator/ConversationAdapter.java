@@ -1,6 +1,8 @@
-package com.example.komunikator;
+package com.example.komunikatorr;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ConversationAdapter extends BaseAdapter {
-   
+    
     private ArrayList<Message> _data;
     Context _c;
     
@@ -52,9 +54,9 @@ public class ConversationAdapter extends BaseAdapter {
            Message msg = _data.get(position);
            image.setImageResource(R.drawable.ic_launcher);
            fromView.setText(msg.getSenderName());
-           descView.setText(msg.getMessageContent());
-           timeView.setText((CharSequence) msg.getDateSent());                             
+           descView.setText(msg.getMessageContent());         
+           timeView.setText(help.dateToString(msg.getDateSent()));                             
                         
         return v;
-}
+    }
 }
