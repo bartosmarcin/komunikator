@@ -50,7 +50,7 @@ public class ConversationAdapter extends BaseAdapter {
            TextView timeView = (TextView)v.findViewById(R.id.time);
  
            Message msg = _data.get(position);
-           image.setImageResource(3);
+           image.setImageResource(R.drawable.ic_launcher);
            fromView.setText(msg.getSenderName());
            descView.setText(msg.getMessageContent());
            timeView.setText((CharSequence) msg.getDateSent());                             
