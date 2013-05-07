@@ -1,38 +1,32 @@
 package com.example.komunikator;
 
+import java.util.ArrayList;
+
 public class Conversation {
-      
-//	public void addSent(){
-//		
-//	}
-//	    
-//	public void addRecieved(){
-//		
-//	}
+	 public static ArrayList<Message> details;
 	
 	public void add(Message m){
-		Conversation_activity.details.add(m);
+		details.add(m);
 	}
 	
 	public Message getMostRecent(){
-		int last = Conversation_activity.details.size()-1;
-		return Conversation_activity.details.get(last);
+		int last = details.size()-1;
+		return details.get(last);
 	}
 	
 	public Message getMessage(int index){
-		return Conversation_activity.details.get(index);
+		return details.get(index);
 	}
 	   
 	public void deleteMessage(int index){
-		Conversation_activity.details.remove(index);
+		details.remove(index);
 	}
 	
 	public void deleteMessage(Message message){
-		Conversation_activity.details.remove(message);
+		details.remove(message);
 	}
 	
 	public void deleteAll(){
-		Conversation_activity.details=null;
+		details=null;
 	}
-	
 }
