@@ -19,7 +19,7 @@ public class NewMessageListener extends IntentService{
 		intervalInBackground = 300000;
 	}
 	
-	private void showNotification(String msg){
+	private void showNotification(String msg, int id){
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
@@ -30,7 +30,7 @@ public class NewMessageListener extends IntentService{
 		Intent intent = new Intent(this, ConversationActivity.class);
 		PendingIntent in = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 		mBuilder.setContentIntent(in);
-		mNotificationManager.notify(0, mBuilder.build());
+		mNotificationManager.notify(id, mBuilder.build());
 
 	}
 
@@ -44,7 +44,7 @@ public class NewMessageListener extends IntentService{
 			if(System.currentTimeMillis() > start){
 				if ( connection.hasNewMessages("marcin") ){
 					String messages = connection.getNewMessages("marcin");
-					showNotification(messages);
+					showNotification(messages,0);
 				}
 				start = System.currentTimeMillis() + intervalInForeground;				
 			}			
