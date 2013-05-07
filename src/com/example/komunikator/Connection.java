@@ -17,9 +17,9 @@ import org.apache.http.message.BasicNameValuePair;
 
 
 public class Connection {
-	private final String SEND_MSG_URL="http://iem.pw.edu.pl/~bartosm4/sendmsg.php";
-    private final String GET_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/getmsg.php";
-    private final String HAS_NEW_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/hasnew.php";
+	private final String SEND_MSG_URL="http://iem.pw.edu.pl/~bartosm4/service/sendmsg.php";
+    private final String GET_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/service/getmsg.php";
+    private final String HAS_NEW_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/service/hasnew.php";
     
     private final String POST_RECIPIENT_FIELD_NAME="recipient";
     private final String POST_MESSAGE_FIELD_NAME="message";    
