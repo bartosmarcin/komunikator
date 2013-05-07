@@ -3,7 +3,6 @@
 
     <string name="app_name">komunikator</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="you_have_new_messages">Masz nowe!</string>
+    <string name="button_name">Send</string>
 
 </resources>
