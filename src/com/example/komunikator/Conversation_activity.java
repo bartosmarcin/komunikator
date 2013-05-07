@@ -1,4 +1,4 @@
-package com.example.komunikatorr;
+package com.example.komunikator;
 
 import java.util.ArrayList;
 import android.app.Activity;
