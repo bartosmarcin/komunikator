@@ -1,4 +1,4 @@
-package com.example.komunikatorr;
+package com.example.komunikator;
 
 public class Conversation {
       
