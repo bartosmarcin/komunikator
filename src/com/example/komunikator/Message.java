@@ -71,7 +71,6 @@ public class Message{
 	public String toJson() {
 		JsonObject obj = new JsonObject(sender, recipent, content, dateSent);
 		return obj.toJson();
-		return null;
 	}
 
 }
