@@ -1,6 +1,5 @@
 package com.example.komunikator;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class Message{
