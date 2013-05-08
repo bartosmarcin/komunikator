@@ -10,7 +10,7 @@ public class Conversation {
 	}
 	
 	public Message getMostRecent(){
-		int last = details.size()-1;
+		int last = details.size() - 1;
 		return details.get(last);
 	}
 	
