@@ -1,16 +1,31 @@
 package com.example.komunikator;
 
+import java.util.NoSuchElementException;
+
 public class User {
 	
-	private String username;
-	private String password;
+	private static String username;
+	private static String passwordHash;
+	
 	
 	public User(String username, String password){
-		this.username=username;
+		User.username=username;
+		User.passwordHash=this.createBlowfishHash(password, username);
 	}
 	
-	public String getUsername(){
+	public static String getUsername() throws NoSuchElementException{
+		if(username == null)
+			throw new NoSuchElementException();
 		return username;
 	}
-
+	
+	public static String getPasswordHash() throws NoSuchElementException{
+		if(passwordHash == null)
+			throw new NoSuchElementException();
+		return passwordHash;
+	}
+	
+	private String createBlowfishHash(String Password, String salt){
+		return BCrypt.hashpw(Password, salt);		
+	}
 }
