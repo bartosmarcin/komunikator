@@ -15,13 +15,13 @@ public class User {
 	
 	public static String getUsername() throws NoSuchElementException{
 		if(username == null)
-			throw new NoSuchElementException();
+			throw new NoSuchElementException("User has not been initialized!");
 		return username;
 	}
 	
 	public static String getPasswordHash() throws NoSuchElementException{
 		if(passwordHash == null)
-			throw new NoSuchElementException();
+			throw new NoSuchElementException("User has not been initialized!");
 		return passwordHash;
 	}
 	

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,7 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 
 public class Connection {
-	private final String SEND_MSG_URL="http://iem.pw.edu.pl/~bartosm4/service/sendmsg.php";
+	private final String SEND_MSG_URL="http://iem.pw.edu.pl/~bartosm4/service/testsendmsg.php";
     private final String GET_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/service/getmsg.php";
     private final String HAS_NEW_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/service/hasnew.php";
     
@@ -27,7 +28,11 @@ public class Connection {
     private final String CORRECT_SERVER_RESPONSE="ok";
     private final String HAS_NEW_MSGS_RESPONSE="y";  
     
-    public boolean hasNewMessages(String username){
+    public boolean hasNewMessages(){
+    	return hasNewMessages(User.getUsername(), User.getPasswordHash());
+    }
+    
+    public boolean hasNewMessages(String username, String passHash){
     	List<NameValuePair> params = new ArrayList<NameValuePair>(1);
     	params.add(0, new BasicNameValuePair("username", username) );
     	HttpResponse resp = makePOSTrequest(params, HAS_NEW_MSGS_URL);
@@ -49,8 +54,12 @@ public class Connection {
 		String messageJson = message.toJson();
 		return sendMessage(recipientName, messageJson);
 	}
+	
+	public String getNewMessages(){
+			return getNewMessages(User.getUsername(), User.getPasswordHash());
+	}
     
-    public String getNewMessages(String username){
+    public String getNewMessages(String username, String passHash){
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
         nameValuePairs.add(new BasicNameValuePair(POST_RECIPIENT_FIELD_NAME, username));
         HttpResponse response = makePOSTrequest(nameValuePairs, GET_MSGS_URL);
