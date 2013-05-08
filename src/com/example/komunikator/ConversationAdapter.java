@@ -1,9 +1,10 @@
 package com.example.komunikator;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+@SuppressLint("SimpleDateFormat")
 public class ConversationAdapter extends BaseAdapter {
-    
+	 
     private ArrayList<Message> _data;
     Context _c;
     
@@ -55,8 +57,14 @@ public class ConversationAdapter extends BaseAdapter {
            image.setImageResource(R.drawable.ic_launcher);
            fromView.setText(msg.getSenderName());
            descView.setText(msg.getMessageContent());         
-           timeView.setText(help.dateToString(msg.getDateSent()));                             
+           timeView.setText(dateToString(msg.getDateSent()));                             
                         
         return v;
+    }
+    
+    private static String dateToString(Date date){
+   	 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+        String s = sdf.format(date);
+        return s;
     }
 }

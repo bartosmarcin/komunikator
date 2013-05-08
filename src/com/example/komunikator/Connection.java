@@ -15,15 +15,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 public class Connection {
 	private final String SEND_MSG_URL="http://iem.pw.edu.pl/~bartosm4/sendmsg.php";
     private final String GET_MSGS_URL="http://iem.pw.edu.pl/~bartosm4/getmsg.php";
-    private final String hasNewMessegesURL="some string";
-    
     private final String POST_RECIPIENT_FIELD_NAME="recipient";
     private final String POST_MESSAGE_FIELD_NAME="message";    
     private final String CORRECT_SERVER_RESPONSE="ok";

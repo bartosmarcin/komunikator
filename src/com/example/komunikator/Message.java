@@ -2,19 +2,19 @@ package com.example.komunikator;
 
 import java.util.Date;
 
-public class Message implements IMessage {
-	
+public class Message{
+
 	private Date dateSent, dateRecieved;
 	private String sender, recipent, content;
 	private boolean sent, belongsToUser;
-	
+
 	public Message(String sender, String recipent, String content) {
 		this.sender = sender;
 		this.recipent = recipent;
 		setMessageContent(content);
 		sent = false;
 	}
-	
+
 	public Message(String json) {
 		JsonObject obj = new JsonObject(json);
 		sender = obj.getSender();
@@ -30,15 +30,15 @@ public class Message implements IMessage {
 	public Date getDateRecieved() {
 		return dateRecieved;
 	}
-	
-	public void setDateSent() {
-		dateSent = new Date();
+
+	public void setDateSent(Date c) {
+		dateSent = c;
 	}
 
-	public void setDateRecieved() {
-		dateRecieved = new Date();
+	public void setDateRecieved(Date d) {
+		dateRecieved = d;
 	}
-	
+
 	public boolean belongsToUser() {
 		return belongsToUser;
 	}
@@ -46,7 +46,7 @@ public class Message implements IMessage {
 	public boolean isSent() {
 		return sent;
 	}
-	
+
 	public void markAsSent() {
 		sent = true;
 	}
@@ -71,5 +71,4 @@ public class Message implements IMessage {
 		JsonObject obj = new JsonObject(sender, recipent, content, dateSent);
 		return obj.toJson();
 	}
-
 }

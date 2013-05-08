@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class Conversation_activity extends Activity {
+public class ConversationActivity extends Activity {
 	ListView msgList;
 	ConversationAdapter ad;
 	
@@ -52,7 +52,7 @@ public class Conversation_activity extends Activity {
 		Conversation.details.add(Detail);
 		
 		ad.notifyDataSetChanged();  //how to refresh listview
-		 
+		
 		//refresh aktywnosci (tak na przyszlosc... jakos mozna to przechwycic... nie wczytuje sie metoda onCreate) 
 		//finish();
 		//startActivity(getIntent());
