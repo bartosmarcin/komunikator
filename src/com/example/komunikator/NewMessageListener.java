@@ -62,7 +62,6 @@ public class NewMessageListener extends IntentService{
 		for(int i=0; i < messagesArray.size(); i++){
 			this.showNotification(messagesArray.get(i).getMessageContent()+
 					messagesArray.get(i).getSenderName(), i);
-			Conversation.
 		}
 	}
 

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Conversation {
 	 public static ArrayList<Message> details = new ArrayList<Message>();;
 	
-	public void add(Message m){
+	 //TODO Change to non static after tests
+	public static void add(Message m){
 		details.add(m);
 	}
 	
