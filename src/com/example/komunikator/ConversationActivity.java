@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,11 @@ public class ConversationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_conversation);
+		
+		//Startowanie MessageListenera - Marcin :)
+		//TODO przeniesc, gdy to nie bedzie glowna aktywnosc!
+		Intent intent = new Intent(this, NewMessageListener.class);
+		startService(intent);	
 		
 		//Conversation.details = new ArrayList<Message>();
 		msgList = (ListView) findViewById(R.id.listView1);
