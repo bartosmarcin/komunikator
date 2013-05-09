@@ -59,9 +59,12 @@ public class NewMessageListener extends IntentService{
 	
 	private void handleNewMessages(String newMessagesJson){
 		List<Message> messagesArray= this.jsonArrayToMessageList(newMessagesJson);
+		Message message;
 		for(int i=0; i < messagesArray.size(); i++){
-			this.showNotification(messagesArray.get(i).getMessageContent()+
-					messagesArray.get(i).getSenderName(), i);
+			message = messagesArray.get(i);
+			this.showNotification(message.getMessageContent()+
+					message.getSenderName(), i);
+			Conversation.add(message);
 		}
 	}
 
