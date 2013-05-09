@@ -40,21 +40,6 @@ public class NewMessageListener extends IntentService{
 		return array;
 	}
 	
-	
-	// TODO remove after tests
-	private List<String> jsonArrayToStringList(String json){
-		List<String> array = new ArrayList<String>();
-		Message message;
-		try{
-			JSONArray jarray = new JSONArray(json);
-			for(int i=0; i < jarray.length(); i++){
-				array.add(jarray.getString(i));
-			}
-		}catch(JSONException e){			
-		}
-		return array;
-	}	
-	
 	private void showNotification(String msg, int id){
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);

@@ -29,7 +29,7 @@ public class Connection {
     private final String HAS_NEW_MSGS_RESPONSE="y";  
     
     public boolean hasNewMessages(){
-    	return hasNewMessages(User.getUsername(), User.getPasswordHash());
+    	return hasNewMessages(User.getUsername(), User.getPassword());
     }
     
     public boolean hasNewMessages(String username, String passHash){
@@ -56,7 +56,7 @@ public class Connection {
 	}
 	
 	public String getNewMessages(){
-			return getNewMessages(User.getUsername(), User.getPasswordHash());
+			return getNewMessages(User.getUsername(), User.getPassword());
 	}
     
     public String getNewMessages(String username, String passHash){

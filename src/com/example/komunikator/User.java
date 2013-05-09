@@ -5,12 +5,12 @@ import java.util.NoSuchElementException;
 public class User {
 	
 	private static String username;
-	private static String passwordHash;
+	private static String password;
 	
 	
 	public User(String username, String password){
 		User.username=username;
-		User.passwordHash=this.createBlowfishHash(password, username);
+		User.password=password;
 	}
 	
 	public static String getUsername() throws NoSuchElementException{
@@ -19,10 +19,10 @@ public class User {
 		return username;
 	}
 	
-	public static String getPasswordHash() throws NoSuchElementException{
-		if(passwordHash == null)
+	public static String getPassword(){
+		if(password == null)
 			throw new NoSuchElementException("User has not been initialized!");
-		return passwordHash;
+		return password;
 	}
 	
 	private String createBlowfishHash(String Password, String salt){
