@@ -6,12 +6,39 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ConversationActivity" >
+    tools:context=".Conversation_activity" >
 
-    <TextView
-        android:id="@+id/txt"
+<ListView
+    android:id="@+id/listView1"
+    android:fastScrollEnabled="true"
+    android:transcriptMode="alwaysScroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/button1"
+    android:layout_alignLeft="@+id/editText1"
+    android:layout_alignParentTop="true"
+    android:layout_alignRight="@+id/button1"
+    android:scrollbars="vertical" >
+</ListView> 
+<!-- android:stackFromBottom="true" bedzie sie tworzyl stos od dolu - fajne opcja ale nie potrzeban, dodac w listview-->
+    <Button
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="sendMessage"
+        android:text="@string/button_name" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:ems="10"
+        android:inputType="textMultiLine" >
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
