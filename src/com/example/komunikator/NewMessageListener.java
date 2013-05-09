@@ -22,10 +22,8 @@ public class NewMessageListener extends IntentService{
 		connection = new Connection();
 		intervalInForeground = 10000;
 		intervalInBackground = 300000;
-	}
+	}	
 	
-	
-	// TODO test
 	private List<Message> jsonArrayToMessageList(String json){
 		List<Message> array = new ArrayList<Message>();
 		Message message;
@@ -54,6 +52,17 @@ public class NewMessageListener extends IntentService{
 		mNotificationManager.notify(id, mBuilder.build());
 
 	}
+	
+	private void putToApropriateConversation(Message message){
+		
+	}
+	
+	private void handleNewMessages(String newMessagesJson){
+		List<Message> messagesArray= this.jsonArrayToMessageList(newMessagesJson);
+		for(int i=0; i < messagesArray.size(); i++)
+			this.showNotification(messagesArray.get(i).getMessageContent()+
+					messagesArray.get(i).getSenderName(), i);
+	}
 
 	@Override
 	protected void onHandleIntent(Intent arg0) {
@@ -65,10 +74,7 @@ public class NewMessageListener extends IntentService{
 			if(System.currentTimeMillis() > start){
 				if ( connection.hasNewMessages("marcin", "temphash") ){
 					String messages = connection.getNewMessages("marcin", "temphash");
-					List<Message> messagesArray= this.jsonArrayToMessageList(messages);
-					for(int i=0; i < messagesArray.size(); i++)
-						this.showNotification(messagesArray.get(i).getMessageContent()+
-								messagesArray.get(i).getSenderName(), i);
+					handleNewMessages(messages);					
 				}
 				start = System.currentTimeMillis() + intervalInForeground;				
 			}			
