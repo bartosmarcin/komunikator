@@ -82,7 +82,6 @@ public class ConversationActivity extends Activity {
 	public void sendMessage(View view){
 		//reakcja na guzik, tworzy wiadomosc i wysyla, nie wiem skad brac nadawce i odbiorce
 		
-		//EditText editText = (EditText) findViewById(R.id.editText1);
 		EditText editText = this.editText;
 		
 		String message = editText.getText().toString();
@@ -98,6 +97,5 @@ public class ConversationActivity extends Activity {
 		//refresh aktywnosci (tak na przyszlosc... jakos mozna to przechwycic... nie wczytuje sie metoda onCreate) 
 		//finish();
 		//startActivity(getIntent());
-	}
-		
+	}		
 }
