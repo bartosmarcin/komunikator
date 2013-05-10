@@ -13,16 +13,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class NewMessageListener extends IntentService{
-	long intervalInForeground;
-	long intervalInBackground;
-	Connection connection;
+	private long intervalInForeground;
+	private long intervalInBackground;
+	private long currentInterval;
+	private Connection connection;
 		
 	public NewMessageListener(){
 		super("NewMessageListener");
 		connection = new Connection();
 		intervalInForeground = 10000;
 		intervalInBackground = 300000;
-	}	
+	}
 	
 	private List<Message> jsonArrayToMessageList(String json){
 		List<Message> array = new ArrayList<Message>();
@@ -81,7 +82,10 @@ public class NewMessageListener extends IntentService{
 					String messages = connection.getNewMessages(User.getUsername(), User.getPassword());
 					handleNewMessages(messages);					
 				}
-				start = System.currentTimeMillis() + intervalInForeground;				
+				if( MyApp.isInForeground() )
+					start = System.currentTimeMillis() + intervalInForeground;	
+				else
+					start = System.currentTimeMillis() + intervalInBackground;	
 			}			
 		}
 		

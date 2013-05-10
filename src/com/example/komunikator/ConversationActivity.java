@@ -15,6 +15,18 @@ public class ConversationActivity extends Activity {
 	ConversationAdapter ad;
 	
 	@Override
+	protected void onResume(){
+		super.onResume();
+		MyApp.activityResumed();
+	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		MyApp.activityPaused();
+	}
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_conversation);
