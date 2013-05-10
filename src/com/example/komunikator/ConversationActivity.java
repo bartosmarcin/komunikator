@@ -50,11 +50,13 @@ public class ConversationActivity extends Activity {
 		String message = editText.getText().toString();
 		
 		//potrzebna klasa createMessage tutaj na sztywno:
-		Message Detail = new Message("ja","odbiorca",message);
+		Message Detail = new Message("marcin","marcin",message);
 		Date currentDate = Calendar.getInstance().getTime();
         Detail.setDateSent(currentDate);
 		//uzycie klasy connection na razie dopisze na ekran
 		Conversation.details.add(Detail);
+		Connection connection = new Connection();
+		connection.sendMessage(Detail);
 		
 		ad.notifyDataSetChanged();  //how to refresh listview
 		

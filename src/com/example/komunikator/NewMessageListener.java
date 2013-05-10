@@ -39,7 +39,8 @@ public class NewMessageListener extends IntentService{
 	}
 	
 	private void showNotification(String msg, int id){
-		NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager mNotificationManager = 
+				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
 		mBuilder.setContentTitle("My Application")
@@ -47,7 +48,8 @@ public class NewMessageListener extends IntentService{
 		        .setProgress(0, 0, true)
 		        .setSmallIcon(R.drawable.ic_launcher);
 		Intent intent = new Intent(this, ConversationActivity.class);
-		PendingIntent in = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+		PendingIntent in = PendingIntent.getActivity(getApplicationContext(), 
+				0, intent, 0);
 		mBuilder.setContentIntent(in);
 		mNotificationManager.notify(id, mBuilder.build());
 
@@ -72,12 +74,11 @@ public class NewMessageListener extends IntentService{
 	protected void onHandleIntent(Intent arg0) {
 		// naive implementation
 		//TODO find more efficient solution(like AlarmManager)
-		//TODO implement msgs handling
 		long start = System.currentTimeMillis() + intervalInForeground;
 		while(true){
 			if(System.currentTimeMillis() > start){
-				if ( connection.hasNewMessages("marcin", "temphash") ){
-					String messages = connection.getNewMessages("marcin", "temphash");
+				if ( connection.hasNewMessages(User.getUsername(), User.getPassword())){
+					String messages = connection.getNewMessages(User.getUsername(), User.getPassword());
 					handleNewMessages(messages);					
 				}
 				start = System.currentTimeMillis() + intervalInForeground;				
