@@ -25,22 +25,18 @@ public class ConversationAdapter extends BaseAdapter {
     }
    
     public int getCount() {
-        // TODO Auto-generated method stub
         return _data.size();
     }
     
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return _data.get(position);
     }
  
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
    
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
          View v = convertView;
          if (v == null)
          {
