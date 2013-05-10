@@ -82,10 +82,10 @@ public class NewMessageListener extends IntentService{
 					String messages = connection.getNewMessages(User.getUsername(), User.getPassword());
 					handleNewMessages(messages);					
 				}
-				if( MyApp.isInForeground() )
+				//if( MyApp.isInForeground() )
 					start = System.currentTimeMillis() + intervalInForeground;	
-				else
-					start = System.currentTimeMillis() + intervalInBackground;	
+				//else
+				//	start = System.currentTimeMillis() + intervalInBackground;	
 			}			
 		}
 		
