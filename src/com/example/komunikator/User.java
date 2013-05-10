@@ -4,8 +4,8 @@ import java.util.NoSuchElementException;
 
 public class User {
 	
-	private static String username;
-	private static String password;
+	private static String username="marcin";
+	private static String password="haslo";
 	
 	
 	public User(String username, String password){
