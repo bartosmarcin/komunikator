@@ -21,28 +21,27 @@
 
 </ListView> 
 <!-- android:stackFromBottom="true" bedzie sie tworzyl stos od dolu - fajne opcja ale nie potrzeban, dodac w listview-->
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="sendMessage"
-        android:text="@string/button_name" />
 
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:layout_alignLeft="@+id/listView1"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button1"
+        android:ems="10"
         android:hint="@string/send_hint"
         android:imeActionLabel="@string/button_name"
-        android:imeOptions="actionSend" 
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignLeft="@+id/listView1"
-        android:layout_toLeftOf="@+id/button1"
-        android:ems="10" >
-        <requestFocus />
-    </EditText>
+        android:imeOptions="actionSend"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editText1"
+        android:layout_alignParentRight="true"
+        android:onClick="sendMessage"
+        android:text="@string/button_name" />
 
 </RelativeLayout>

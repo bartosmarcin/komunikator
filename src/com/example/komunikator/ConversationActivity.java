@@ -25,18 +25,17 @@ public class ConversationActivity extends Activity {
 		setContentView(R.layout.activity_conversation);
 		
 		EditText action = (EditText) findViewById(R.id.editText1); 
-		//Conversation.details = new ArrayList<Message>();
 		msgList = (ListView) findViewById(R.id.listView1);
         
 		//pobieranie nowych - na razie tylko przy ladowaniu aktywnosci poxniej sie doda ten modul dzialajacy w tle
-		if(connect.hasNewMessages()){
+//		if(connect.hasNewMessages()){
 //			String mes=connect.getNewMessages();
 			//w stringu jest masa wiadomosci w JSON... jak je oddzieliæ i przekonwertowaæ, aby mieæ obiekty message.
 			//przekonwetowane mozna juz dodac do Conversation :)
 //			for(int i=0;i<properMes.length();i++){
 //				Conversation.add(properMes[i]);
 //			}
-		}
+//		}
 		
 		
 		Message Detail = new Message("nadwca","odbiorca","tresc hej");
@@ -64,10 +63,9 @@ public class ConversationActivity extends Activity {
 //		        } //przymiarka do obslugi przycisku powrotu
 		        
 		        if (actionId == EditorInfo.IME_ACTION_SEND) {
-		        	Message Detail = new Message("ja","odbiorca","Z nowego przycisku");
+		        	String content = editText.getText().toString();
+		        	Message Detail = new Message("ja","odbiorca","Z nowego przycisku: "+content);
 		    		Date currentDate = Calendar.getInstance().getTime();
-		        	Detail = new Message("ja","odbiorca","Z nowego przycisku");
-		    		currentDate = Calendar.getInstance().getTime();
 		            Detail.setDateSent(currentDate);
 		    		Conversation.details.add(Detail);
 		    		editText.setText("");
