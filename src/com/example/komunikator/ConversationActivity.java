@@ -17,6 +17,7 @@ public class ConversationActivity extends Activity {
 	ListView msgList;
 	public ConversationAdapter ad;
 	EditText editText;
+	Connection connect=new Connection(); //a to w sumie jest w klasie NewMessageListener
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +25,23 @@ public class ConversationActivity extends Activity {
 		setContentView(R.layout.activity_conversation);
 		
 		EditText action = (EditText) findViewById(R.id.editText1); 
-
 		//Conversation.details = new ArrayList<Message>();
 		msgList = (ListView) findViewById(R.id.listView1);
         
-		//polacznie z klasa connection i pobranie wiadomosci... + ewentualnie wczytanie historii
-        // potrzebna klasa createMessage
+		//pobieranie nowych - na razie tylko przy ladowaniu aktywnosci poxniej sie doda ten modul dzialajacy w tle
+		if(connect.hasNewMessages()){
+//			String mes=connect.getNewMessages();
+			//w stringu jest masa wiadomosci w JSON... jak je oddzieliæ i przekonwertowaæ, aby mieæ obiekty message.
+			//przekonwetowane mozna juz dodac do Conversation :)
+//			for(int i=0;i<properMes.length();i++){
+//				Conversation.add(properMes[i]);
+//			}
+		}
+		
+		
 		Message Detail = new Message("nadwca","odbiorca","tresc hej");
         Date currentDate = Calendar.getInstance().getTime();
-		Detail.setDateSent(currentDate);
+		Detail.setDateSent(currentDate); 
 		Conversation.details.add(Detail);
         
         Detail = new Message("nadawca","odbiorca","tresc hej co tam");
@@ -48,11 +57,11 @@ public class ConversationActivity extends Activity {
 		    @Override
 		    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		        boolean handled = false;
-		        // klopot z wroceniem do aktywnosci + z zaprogrmowaniem przycisku new line
+		        // klopot z wroceniem do aktywnosci po wprowadzeniu tekstu + z zaprogrmowaniem przycisku newline
 		        
 //		        if (!event.isShiftPressed()) {
 //		        	return true;
-//		        }
+//		        } //przymiarka do obslugi przycisku powrotu
 		        
 		        if (actionId == EditorInfo.IME_ACTION_SEND) {
 		        	Message Detail = new Message("ja","odbiorca","Z nowego przycisku");
@@ -64,7 +73,7 @@ public class ConversationActivity extends Activity {
 		    		editText.setText("");
 		    		ad.notifyDataSetChanged();
 		            handled = true;
-		            
+		            //na sztywno wyslanie wiadomosci
 		        }
 		        return handled;
 		    }
@@ -77,18 +86,16 @@ public class ConversationActivity extends Activity {
 		
 		//EditText editText = (EditText) findViewById(R.id.editText1);
 		EditText editText = this.editText;
-		String message = editText.getText().toString();
 		
-		//potrzebna klasa createMessage tutaj na sztywno:
+		String message = editText.getText().toString();
 		Message Detail = new Message("ja","odbiorca",message);
 		Date currentDate = Calendar.getInstance().getTime();
         Detail.setDateSent(currentDate);
-		//uzycie klasy connection na razie dopisze na ekran
-		Conversation.details.add(Detail);
+		//this.connect.sendMessage("odbiorca",Detail.toJson());
+		Conversation.details.add(Detail); //na ekran
 		
 		ad.notifyDataSetChanged();  //how to refresh listview
 		editText.setText("");
-		
 		
 		//refresh aktywnosci (tak na przyszlosc... jakos mozna to przechwycic... nie wczytuje sie metoda onCreate) 
 		//finish();
