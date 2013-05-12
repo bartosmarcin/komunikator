@@ -17,7 +17,7 @@ public class ConversationActivity extends Activity {
 	ListView msgList;
 	public static ConversationAdapter ad;
 	EditText editText;
-	Connection connect=new Connection(); //a to w sumie jest w klasie NewMessageListener
+	Connection connect=new Connection(); //a to w sumie jest w klasie NewMessageListener...
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +38,15 @@ public class ConversationActivity extends Activity {
 //		}
 		
 		
-		Message Detail = new Message("nadwca","odbiorca","tresc hej");
-        Date currentDate = Calendar.getInstance().getTime();
-		Detail.setDateSent(currentDate); 
-		Conversation.details.add(Detail);
+//		Message Detail = new Message("nadwca","odbiorca","tresc hej");
+//      Date currentDate = Calendar.getInstance().getTime();
+//		Detail.setDateSent(currentDate); 
+//		Conversation.details.add(Detail);
         
-        Detail = new Message("nadawca","odbiorca","tresc hej co tam");
-        currentDate = Calendar.getInstance().getTime();
-        Detail.setDateSent(currentDate);
-        Conversation.details.add(Detail);
+//        Detail = new Message("nadawca","odbiorca","tresc hej co tam");
+//        currentDate = Calendar.getInstance().getTime();
+//        Detail.setDateSent(currentDate);
+//        Conversation.details.add(Detail);
         
         //trzeba po all wiadomosciach wywolac
         msgList.setAdapter(ad = new ConversationAdapter(Conversation.details , this));
