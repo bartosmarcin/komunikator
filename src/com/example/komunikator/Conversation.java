@@ -7,27 +7,29 @@ public class Conversation {
 	
 	 //TODO Change to non static after tests
 	public static void add(Message m){
+	public static void add(Message m){
 		details.add(m);
+		ConversationActivity.ad.notifyDataSetChanged();
 	}
 	
-	public Message getMostRecent(){
+	public static Message getMostRecent(){
 		int last = details.size() - 1;
 		return details.get(last);
 	}
 	
-	public Message getMessage(int index){
+	public static Message getMessage(int index){
 		return details.get(index);
 	}
 	   
-	public void deleteMessage(int index){
+	public static void deleteMessage(int index){
 		details.remove(index);
 	}
 	
-	public void deleteMessage(Message message){
+	public static void deleteMessage(Message message){
 		details.remove(message);
 	}
 	
-	public void deleteAll(){
+	public static void deleteAll(){
 		details=null;
 	}
 }

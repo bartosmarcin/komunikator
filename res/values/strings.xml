@@ -4,5 +4,6 @@
     <string name="app_name">komunikator</string>
     <string name="action_settings">Settings</string>
     <string name="button_name">Send</string>
+    <string name="send_hint">Message</string>
 
 </resources>
