@@ -7,7 +7,6 @@ public class Conversation {
 	
 	 //TODO Change to non static after tests
 	public static void add(Message m){
-	public static void add(Message m){
 		details.add(m);
 		ConversationActivity.ad.notifyDataSetChanged();
 	}

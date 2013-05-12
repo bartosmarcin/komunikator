@@ -1,4 +1,4 @@
-j wpackage com.example.komunikator;
+package com.example.komunikator;
 
 import java.util.NoSuchElementException;
 
