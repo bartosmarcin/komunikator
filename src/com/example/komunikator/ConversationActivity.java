@@ -19,6 +19,7 @@ public class ConversationActivity extends Activity {
 	EditText editText;
 	Connection connect=new Connection(); //a to w sumie jest w klasie NewMessageListener...
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
