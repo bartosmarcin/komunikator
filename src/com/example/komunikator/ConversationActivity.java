@@ -15,7 +15,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class ConversationActivity extends Activity {
 	ListView msgList;
-	public ConversationAdapter ad;
+	public static ConversationAdapter ad;
 	EditText editText;
 	Connection connect=new Connection(); //a to w sumie jest w klasie NewMessageListener
 	

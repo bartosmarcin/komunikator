@@ -7,6 +7,7 @@ public class Conversation {
 	
 	public static void add(Message m){
 		details.add(m);
+		ConversationActivity.ad.notifyDataSetChanged();
 	}
 	
 	public static Message getMostRecent(){
