@@ -57,7 +57,6 @@ public class NewMessageListener extends IntentService{
 	}
 	
 	private void putToApropriateConversation(Message message){
-		
 	}
 	
 	private void handleNewMessages(String newMessagesJson){
@@ -68,8 +67,14 @@ public class NewMessageListener extends IntentService{
 			this.showNotification(message.getMessageContent()+
 					message.getSenderName(), i);
 			Conversation.add(message);
-		}
+			Intent intent=new Intent("com.example.komunikator.ConversationActivity");
+			intent.setAction("newmsgs");
+			sendBroadcast(intent);
+			}
+		
 	}
+	
+	
 
 	@Override
 	protected void onHandleIntent(Intent arg0) {

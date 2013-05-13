@@ -4,7 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.KeyEvent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,105 +21,85 @@ public class ConversationActivity extends Activity {
 	ListView msgList;
 	public static ConversationAdapter ad;
 	EditText editText;
-	Connection connect=new Connection(); //a to w sumie jest w klasie NewMessageListener...
-	
-	
+
+	private SampleReceiver broadcastReciever;
+	private IntentFilter intentFilter;
+
 	@Override
-	protected void onResume(){
+	protected void onResume() {
 		super.onResume();
 		MyApp.activityResumed();
+		registerReceiver(broadcastReciever, intentFilter);
 	}
-	
+
 	@Override
-	protected void onPause(){
+	protected void onPause() {
 		super.onPause();
 		MyApp.activityPaused();
+		unregisterReceiver(broadcastReciever);
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_conversation);
-		
-		//Startowanie MessageListenera - Marcin :)
-		//TODO przeniesc, gdy to nie bedzie glowna aktywnosc!
+
+		// TODO przeniesc, gdy to nie bedzie glowna aktywnosc!
+		broadcastReciever = new SampleReceiver();
+		intentFilter = new IntentFilter("newmsgs");
 		Intent intent = new Intent(this, NewMessageListener.class);
-		startService(intent);	
-		
-		EditText action = (EditText) findViewById(R.id.editText1); 
+		startService(intent);
+
+		EditText action = (EditText) findViewById(R.id.editText1);
 		msgList = (ListView) findViewById(R.id.listView1);
-        
-		//pobieranie nowych - na razie tylko przy ladowaniu aktywnosci poxniej sie doda ten modul dzialajacy w tle
-//		if(connect.hasNewMessages()){
-//			String mes=connect.getNewMessages();
-			//w stringu jest masa wiadomosci w JSON... jak je oddzieli� i przekonwertowa�, aby mie� obiekty message.
-			//przekonwetowane mozna juz dodac do Conversation :)
-//			for(int i=0;i<properMes.length();i++){
-//				Conversation.add(properMes[i]);
-//			}
-//		}
-		
-		
-//		Message Detail = new Message("nadwca","odbiorca","tresc hej");
-//      Date currentDate = Calendar.getInstance().getTime();
-//		Detail.setDateSent(currentDate); 
-//		Conversation.details.add(Detail);
-        
-//        Detail = new Message("nadawca","odbiorca","tresc hej co tam");
-//        currentDate = Calendar.getInstance().getTime();
-//        Detail.setDateSent(currentDate);
-//        Conversation.details.add(Detail);
-        
-        //trzeba po all wiadomosciach wywolac
-        msgList.setAdapter(ad = new ConversationAdapter(Conversation.details , this));
-        
-        
-		action.setOnEditorActionListener(new OnEditorActionListener() { //setOnEditorActionListener(new OnEditorActionListener() {
-		    @Override
-		    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		        boolean handled = false;
-		        // klopot z wroceniem do aktywnosci po wprowadzeniu tekstu + z zaprogrmowaniem przycisku newline
-		        
-//		        if (!event.isShiftPressed()) {
-//		        	return true;
-//		        } //przymiarka do obslugi przycisku powrotu
-		        
-		        if (actionId == EditorInfo.IME_ACTION_SEND) {
-		        	String content = editText.getText().toString();
-		        	Message Detail = new Message("ja","odbiorca","Z nowego przycisku: "+content);
-		    		Date currentDate = Calendar.getInstance().getTime();
-		            Detail.setDateSent(currentDate);
-		    		Conversation.details.add(Detail);
-		    		editText.setText("");
-		    		ad.notifyDataSetChanged();
-		            handled = true;
-		            //na sztywno wyslanie wiadomosci
-		        }
-		        return handled;
-		    }
+		msgList.setAdapter(ad = new ConversationAdapter(Conversation.details,
+				this));
+
+		action.setOnEditorActionListener(new OnEditorActionListener() { 
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				boolean handled = false;
+				
+				if (actionId == EditorInfo.IME_ACTION_SEND) {
+					String content = editText.getText().toString();
+					Message Detail = new Message("ja", "odbiorca",
+							"Z nowego przycisku: " + content);
+					Date currentDate = Calendar.getInstance().getTime();
+					Detail.setDateSent(currentDate);
+					Conversation.details.add(Detail);
+					editText.setText("");
+					ad.notifyDataSetChanged();
+					handled = true;
+					// na sztywno wyslanie wiadomosci
+				}
+				return handled;
+			}
 		});
-		this.editText=action;
+		this.editText = action;
 	}
-	
-	public void sendMessage(View view){
-		//reakcja na guzik, tworzy wiadomosc i wysyla, nie wiem skad brac nadawce i odbiorce
-		
+
+	public void sendMessage(View view) {
 		EditText editText = this.editText;
-		
+
 		String message = editText.getText().toString();
-		Message Detail = new Message("marcin","marcin",message);
+		Message Detail = new Message("marcin", "marcin", message);
 		Date currentDate = Calendar.getInstance().getTime();
-        Detail.setDateSent(currentDate);
-		//this.connect.sendMessage("odbiorca",Detail.toJson());
-		Conversation.details.add(Detail); //na ekran
+		Detail.setDateSent(currentDate);
+
+		Conversation.add(Detail);
 		Connection connection = new Connection();
 		connection.sendMessage(Detail);
-		
-		ad.notifyDataSetChanged();  //how to refresh listview
+
+		ad.notifyDataSetChanged();
 		editText.setText("");
-		
-		//refresh aktywnosci (tak na przyszlosc... jakos mozna to przechwycic... nie wczytuje sie metoda onCreate) 
-		//finish();
-		//startActivity(getIntent());
-	}		
+		editText.clearFocus();
+	}
+
+	private class SampleReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			ad.notifyDataSetChanged();
+		}
+	}
 }

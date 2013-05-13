@@ -8,7 +8,6 @@ public class Conversation {
 	 //TODO Change to non static after tests
 	public static void add(Message m){
 		details.add(m);
-		ConversationActivity.ad.notifyDataSetChanged();
 	}
 	
 	public static Message getMostRecent(){
