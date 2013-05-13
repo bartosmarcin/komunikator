@@ -20,9 +20,11 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class ConversationActivity extends Activity {
 	ListView msgList;
-	public static ConversationAdapter ad;
 	EditText editText;
-	private String recipient = "rafal"; 
+	
+	public static ConversationAdapter ad;
+	private Conversation conversation;
+	private String recipient = "rafal";
 
 	private SampleReceiver broadcastReciever;
 	private IntentFilter intentFilter;
@@ -47,6 +49,13 @@ public class ConversationActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_conversation);
 
+		Intent recievedIntent = getIntent();
+		recipient = recievedIntent.getStringExtra(ConversationsListActivity.EXTRA_RECIPIENT);
+		conversation = ConversationsList.getConversationByRecipient(recipient);
+		msgList = (ListView) findViewById(R.id.listView1);
+		msgList.setAdapter(ad = new ConversationAdapter(conversation.details,
+				this));
+
 		// TODO przeniesc, gdy to nie bedzie glowna aktywnosc!
 		broadcastReciever = new SampleReceiver();
 		intentFilter = new IntentFilter("newmsgs");
@@ -54,24 +63,21 @@ public class ConversationActivity extends Activity {
 		startService(intent);
 
 		EditText action = (EditText) findViewById(R.id.editText1);
-		msgList = (ListView) findViewById(R.id.listView1);
-		msgList.setAdapter(ad = new ConversationAdapter(Conversation.details,
-				this));
 
-		//TODO ogarnac co to jest, poprawic jesli potrzeba
-		action.setOnEditorActionListener(new OnEditorActionListener() { 
+		// TODO ogarnac co to jest, poprawic jesli potrzeba
+		action.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,
 					KeyEvent event) {
 				boolean handled = false;
-				
+
 				if (actionId == EditorInfo.IME_ACTION_SEND) {
 					String content = editText.getText().toString();
 					Message Detail = new Message("ja", "odbiorca",
 							"Z nowego przycisku: " + content);
 					Date currentDate = Calendar.getInstance().getTime();
 					Detail.setDateSent(currentDate);
-					Conversation.details.add(Detail);
+					conversation.details.add(Detail);
 					editText.setText("");
 					ad.notifyDataSetChanged();
 					handled = true;
@@ -86,23 +92,29 @@ public class ConversationActivity extends Activity {
 	public void sendMessage(View view) {
 		EditText editText = this.editText;
 
-		String message = editText.getText().toString();
-		Message Detail = new Message(User.getUsername(), this.recipient, message);
+		String msgContent = editText.getText().toString();
+		Message msg = createNewMessage(msgContent);
+
+		if (conversation.sendMessageSuccessful(msg)) {
+			ad.notifyDataSetChanged();
+			editText.setText("");
+			editText.clearFocus();
+			hideKeyboard();
+		}
+
+	}
+
+	private Message createNewMessage(String content) {
+		Message newMessage = new Message(User.getUsername(), this.recipient,
+				content);
 		Date currentDate = Calendar.getInstance().getTime();
-		Detail.setDateSent(currentDate);
+		newMessage.setDateSent(currentDate);
+		return newMessage;
+	}
 
-		Conversation.add(Detail);
-		Connection connection = new Connection();
-		connection.sendMessage(Detail);
-
-		ad.notifyDataSetChanged();
-		editText.setText("");
-		editText.clearFocus();
-		InputMethodManager imm = (InputMethodManager)getSystemService(
-			      Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-
-		
+	private void hideKeyboard() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 	}
 
 	private class SampleReceiver extends BroadcastReceiver {

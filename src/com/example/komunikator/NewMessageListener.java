@@ -64,9 +64,10 @@ public class NewMessageListener extends IntentService{
 		Message message;
 		for(int i=0; i < messagesArray.size(); i++){
 			message = messagesArray.get(i);
+			String senderName = message.getSenderName();
 			this.showNotification(message.getMessageContent()+
-					message.getSenderName(), i);
-			Conversation.add(message);
+					senderName, i);
+			ConversationsList.getConversationByRecipient(senderName).add(message);
 			Intent intent=new Intent("com.example.komunikator.ConversationActivity");
 			intent.setAction("newmsgs");
 			sendBroadcast(intent);

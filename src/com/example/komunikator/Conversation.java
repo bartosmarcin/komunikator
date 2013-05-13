@@ -3,31 +3,47 @@ package com.example.komunikator;
 import java.util.ArrayList;
 
 public class Conversation {
-	 public static ArrayList<Message> details = new ArrayList<Message>();;
-	
-	 //TODO Change to non static after tests
-	public static void add(Message m){
-		details.add(m);
+	public ArrayList<Message> details = new ArrayList<Message>();
+	private String recipient;
+
+	public Conversation(String recipient) {
+		this.recipient = recipient;
 	}
 	
-	public static Message getMostRecent(){
+	public String getRecipient(){
+		return recipient;
+	}
+
+	public void add(Message m) {
+		details.add(m);
+	}
+
+	public Message getMostRecent() {
 		int last = details.size() - 1;
 		return details.get(last);
 	}
-	
-	public static Message getMessage(int index){
+
+	public Message getMessage(int index) {
 		return details.get(index);
 	}
-	   
-	public static void deleteMessage(int index){
+
+	public void deleteMessage(int index) {
 		details.remove(index);
 	}
-	
-	public static void deleteMessage(Message message){
+
+	public void deleteMessage(Message message) {
 		details.remove(message);
 	}
-	
-	public static void deleteAll(){
-		details=null;
+
+	public void deleteAll() {
+		details = null;
+	}
+
+	public boolean sendMessageSuccessful(Message message) {
+		if (new Connection().sendMessage(message)) {
+			this.add(message);
+			return true;
+		}
+		return false;
 	}
 }
