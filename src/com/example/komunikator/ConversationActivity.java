@@ -9,9 +9,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.KeyEvent;
+import android.view.WindowManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -55,6 +57,7 @@ public class ConversationActivity extends Activity {
 		msgList.setAdapter(ad = new ConversationAdapter(Conversation.details,
 				this));
 
+		//TODO ogarnac co to jest, poprawic jesli potrzeba
 		action.setOnEditorActionListener(new OnEditorActionListener() { 
 			@Override
 			public boolean onEditorAction(TextView v, int actionId,
@@ -94,6 +97,11 @@ public class ConversationActivity extends Activity {
 		ad.notifyDataSetChanged();
 		editText.setText("");
 		editText.clearFocus();
+		InputMethodManager imm = (InputMethodManager)getSystemService(
+			      Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+
+		
 	}
 
 	private class SampleReceiver extends BroadcastReceiver {
