@@ -22,6 +22,7 @@ public class ConversationActivity extends Activity {
 	ListView msgList;
 	public static ConversationAdapter ad;
 	EditText editText;
+	private String recipient = "rafal"; 
 
 	private SampleReceiver broadcastReciever;
 	private IntentFilter intentFilter;
@@ -86,7 +87,7 @@ public class ConversationActivity extends Activity {
 		EditText editText = this.editText;
 
 		String message = editText.getText().toString();
-		Message Detail = new Message("marcin", "marcin", message);
+		Message Detail = new Message(User.getUsername(), this.recipient, message);
 		Date currentDate = Calendar.getInstance().getTime();
 		Detail.setDateSent(currentDate);
 
