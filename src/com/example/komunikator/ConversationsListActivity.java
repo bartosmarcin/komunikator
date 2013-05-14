@@ -11,16 +11,35 @@ public class ConversationsListActivity extends Activity {
 	public final static String EXTRA_RECIPIENT = "com.example.komunikator.ConversationsListActivity";
 
 	public static ConversationsListAdapter ad;
-	public ListView msgList;
+	public ListView contacts;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_conversation);
+		
+		this.startNewMessageListener();
+		this.createListView();
 
-		msgList = (ListView) findViewById(R.id.listView1);
-		msgList.setAdapter(ad = new ConversationsListAdapter(this.getApplicationContext()));
-		msgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		
+		
+		ConversationsList.addNewConversation("marcin");
+		ConversationsList.addNewConversation("michal");
+		ConversationsList.addNewConversation("rafal");
+		ad.notifyDataSetChanged();
+		
+
+	}
+	
+	private void startNewMessageListener(){
+		Intent intent = new Intent(this, NewMessageListener.class);
+		startService(intent);
+	}
+	
+	private void createListView(){
+		contacts = (ListView) findViewById(R.id.listView1);
+		contacts.setAdapter(ad = new ConversationsListAdapter(this.getApplicationContext()));
+		contacts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
@@ -32,13 +51,6 @@ public class ConversationsListActivity extends Activity {
 				
 			}
 		});
-
-		ConversationsList.addNewConversation("marcin");
-		ConversationsList.addNewConversation("michal");
-		ConversationsList.addNewConversation("rafal");
-		ad.notifyDataSetChanged();
-		
-
 	}
 
 }

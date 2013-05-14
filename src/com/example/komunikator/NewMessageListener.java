@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class NewMessageListener extends IntentService{
+	public final static String NEW_MESSAGES = "com.example.komunikator.NewMessageListener"; 
 	private long intervalInForeground;
 	private long intervalInBackground;
 	private long currentInterval;
@@ -44,19 +45,29 @@ public class NewMessageListener extends IntentService{
 				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
 
-		mBuilder.setContentTitle("My Application")
+		mBuilder.setContentTitle(getText(R.string.app_name))
 		        .setContentText(msg)
 		        .setProgress(0, 0, true)
-		        .setSmallIcon(R.drawable.ic_launcher);
+		        .setSmallIcon(R.drawable.ic_launcher)
+		        .setOngoing(true);
 		Intent intent = new Intent(this, ConversationActivity.class);
 		PendingIntent in = PendingIntent.getActivity(getApplicationContext(), 
 				0, intent, 0);
 		mBuilder.setContentIntent(in);
 		mNotificationManager.notify(id, mBuilder.build());
-
+		
+	}
+	
+	private void sendNewMessagesBroadcast(){
+		Intent intent=new Intent("com.example.komunikator.ConversationActivity");
+		intent.setAction(this.NEW_MESSAGES);
+		sendBroadcast(intent);
 	}
 	
 	private void putToApropriateConversation(Message message){
+		String username = message.getSenderName();
+		ConversationsList.getConversationByRecipient(username).add(message);;
+		
 	}
 	
 	private void handleNewMessages(String newMessagesJson){
@@ -67,10 +78,8 @@ public class NewMessageListener extends IntentService{
 			String senderName = message.getSenderName();
 			this.showNotification(message.getMessageContent()+
 					senderName, i);
-			ConversationsList.getConversationByRecipient(senderName).add(message);
-			Intent intent=new Intent("com.example.komunikator.ConversationActivity");
-			intent.setAction("newmsgs");
-			sendBroadcast(intent);
+			putToApropriateConversation(message);
+			sendNewMessagesBroadcast();
 			}
 		
 	}

@@ -52,8 +52,11 @@ public class ConversationAdapter extends BaseAdapter {
            Message msg = _data.get(position);
            image.setImageResource(R.drawable.ic_launcher);
            fromView.setText(msg.getSenderName());
-           descView.setText(msg.getMessageContent());         
-           timeView.setText(dateToString(msg.getDateSent()));                             
+           descView.setText(msg.getMessageContent()); 
+           if(msg.isSent())
+        	   timeView.setText(dateToString(msg.getDateSent()));
+           else
+        	   timeView.setText("Sending message failed, tap to retry");
                         
         return v;
     }

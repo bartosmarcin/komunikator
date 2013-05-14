@@ -16,6 +16,7 @@ public class Message{
 	}
 
 	public Message(String json) {
+		sent = false;
 		JsonObject obj = new JsonObject(json);
 		sender = obj.getSender();
 		recipent = obj.getRecipent();

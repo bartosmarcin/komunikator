@@ -38,12 +38,14 @@ public class Conversation {
 	public void deleteAll() {
 		details = null;
 	}
+	
+	public Message getAt(int index){
+		return this.details.get(index);
+	}
 
-	public boolean sendMessageSuccessful(Message message) {
+	public void sendMessage(Message message) {
 		if (new Connection().sendMessage(message)) {
-			this.add(message);
-			return true;
+			message.markAsSent();
 		}
-		return false;
 	}
 }

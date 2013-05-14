@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 public class User {
 	
-	private static String username="rafal";
+	private static String username="testUser";
 	private static String password="haslo";
 	
 	

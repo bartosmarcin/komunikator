@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ import android.widget.TextView.OnEditorActionListener;
 public class ConversationActivity extends Activity {
 	ListView msgList;
 	EditText editText;
-	
+
 	public static ConversationAdapter ad;
 	private Conversation conversation;
 	private String recipient = "rafal";
@@ -50,17 +51,13 @@ public class ConversationActivity extends Activity {
 		setContentView(R.layout.activity_conversation);
 
 		Intent recievedIntent = getIntent();
-		recipient = recievedIntent.getStringExtra(ConversationsListActivity.EXTRA_RECIPIENT);
-		conversation = ConversationsList.getConversationByRecipient(recipient);
-		msgList = (ListView) findViewById(R.id.listView1);
-		msgList.setAdapter(ad = new ConversationAdapter(conversation.details,
-				this));
+		recipient = recievedIntent
+				.getStringExtra(ConversationsListActivity.EXTRA_RECIPIENT);
 
-		// TODO przeniesc, gdy to nie bedzie glowna aktywnosc!
+		this.createMessageList();
+
 		broadcastReciever = new SampleReceiver();
-		intentFilter = new IntentFilter("newmsgs");
-		Intent intent = new Intent(this, NewMessageListener.class);
-		startService(intent);
+		intentFilter = new IntentFilter(NewMessageListener.NEW_MESSAGES);
 
 		EditText action = (EditText) findViewById(R.id.editText1);
 
@@ -89,18 +86,39 @@ public class ConversationActivity extends Activity {
 		this.editText = action;
 	}
 
+	private void createMessageList() {
+		conversation = ConversationsList.getConversationByRecipient(recipient);
+		msgList = (ListView) findViewById(R.id.listView1);
+		msgList.setAdapter(ad = new ConversationAdapter(conversation.details,
+				this));
+		msgList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Message msg = conversation.getAt(arg2);
+				if( !msg.isSent() ){
+					conversation.sendMessage(msg);
+					ad.notifyDataSetChanged();
+				}
+				
+			}
+		});
+
+	}
+
 	public void sendMessage(View view) {
 		EditText editText = this.editText;
 
 		String msgContent = editText.getText().toString();
 		Message msg = createNewMessage(msgContent);
 
-		if (conversation.sendMessageSuccessful(msg)) {
-			ad.notifyDataSetChanged();
-			editText.setText("");
-			editText.clearFocus();
-			hideKeyboard();
-		}
+		conversation.sendMessage(msg);
+		conversation.add(msg);
+		ad.notifyDataSetChanged();
+		editText.setText("");
+		editText.clearFocus();
+		hideKeyboard();
 
 	}
 
