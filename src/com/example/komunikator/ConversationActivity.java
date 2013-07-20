@@ -70,7 +70,7 @@ public class ConversationActivity extends Activity {
 				if (actionId == EditorInfo.IME_ACTION_SEND) {
 					String content = editText.getText().toString();
 					Message Detail = new Message("ja", "odbiorca",
-							"Z nowego przycisku: " + content);
+							"Odwrócony ekran: " + content);
 					Date currentDate = Calendar.getInstance().getTime();
 					Detail.setDateSent(currentDate);
 					conversation.details.add(Detail);
@@ -99,8 +99,7 @@ public class ConversationActivity extends Activity {
 				if( !msg.isSent() ){
 					conversation.sendMessage(msg);
 					ad.notifyDataSetChanged();
-				}
-				
+				}	
 			}
 		});
 
@@ -118,7 +117,6 @@ public class ConversationActivity extends Activity {
 		editText.setText("");
 		editText.clearFocus();
 		hideKeyboard();
-
 	}
 
 	private Message createNewMessage(String content) {
