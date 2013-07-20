@@ -23,7 +23,8 @@ public class ConversationActivity extends Activity {
 	EditText editText;
 
 	public static ConversationAdapter ad;
-	private Conversation conversation;
+	private Conversation c; //do wywalenia
+//	private Conversation conversation;
 	private String recipient = "rafal";
 
 	private SampleReceiver broadcastReciever;
