@@ -25,7 +25,8 @@ public class ConversationActivity extends Activity {
 	public static ConversationAdapter ad;
 	private Conversation conversation;
 	private String recipient = "rafal";
-
+	private Integer ha;
+	
 	private SampleReceiver broadcastReciever;
 	private IntentFilter intentFilter;
 
