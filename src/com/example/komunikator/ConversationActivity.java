@@ -69,8 +69,8 @@ public class ConversationActivity extends Activity {
 
 				if (actionId == EditorInfo.IME_ACTION_SEND) {
 					String content = editText.getText().toString();
-					Message Detail = new Message("ja", "odbiorca",
-							"Odwrócony ekran: " + content);
+					Message Detail = new Message("nadawca", "odbiorca",
+							"Odwrocony ekran: " + content);
 					Date currentDate = Calendar.getInstance().getTime();
 					Detail.setDateSent(currentDate);
 					conversation.details.add(Detail);
