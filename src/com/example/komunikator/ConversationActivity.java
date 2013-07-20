@@ -24,6 +24,7 @@ public class ConversationActivity extends Activity {
 
 	public static ConversationAdapter ad;
 	private Conversation RECLIPSE;
+	private Conversation RGITHUB;
 	private String recipient = "rafal";
 
 	private SampleReceiver broadcastReciever;
