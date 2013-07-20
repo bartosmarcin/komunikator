@@ -23,7 +23,7 @@ public class ConversationActivity extends Activity {
 	EditText editText;
 
 	public static ConversationAdapter ad;
-	private Conversation connversation;
+	private Conversation coonversation;
 	private String recipient = "rafal";
 
 	private SampleReceiver broadcastReciever;
