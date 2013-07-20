@@ -2,7 +2,6 @@ package com.example.komunikator;
 
 import java.util.Calendar;
 import java.util.Date;
-//hej
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
