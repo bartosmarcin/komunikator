@@ -7,5 +7,10 @@
     <string name="send_hint">Message</string>
     <string name="service_is_running">You are logged in</string>
     <string name="could_not_send_message">Sending message failed, click to retry</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Password</string>
+    <string name="password_repeat_label">Repeat password</string>
+    <string name="signup_label">Sign up</string>
+    <string name="signup_button">Signup now</string>
     
 </resources>

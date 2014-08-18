@@ -5,29 +5,29 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name="com.example.komunikator.MyApp"
+        android:name="komunikator.MyApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             
-            android:name="com.example.komunikator.ConversationActivity"
+            android:name="komunikator.ConversationActivity"
             android:label="@string/app_name" 
-            android:parentActivityName="com.example.komunikator.ConversationsListActivity" >
+            android:parentActivityName="komunikator.ConversationsListActivity" >
 			<meta-data
             	android:name="android.support.PARENT_ACTIVITY"
             	android:value="com.example.myfirstapp.MainActivity" />
     	</activity>
-        <service android:name="com.example.komunikator.NewMessageListener" />
+        <service android:name="komunikator.NewMessageListener" />
         <activity 
-            android:name="com.example.komunikator.ConversationsListActivity">
+            android:name="komunikator.SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

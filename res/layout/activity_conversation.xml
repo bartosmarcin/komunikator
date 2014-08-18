@@ -12,9 +12,9 @@
     android:id="@+id/listView1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_above="@+id/button1"
+    android:layout_above="@+id/signup_form_layout"
     android:layout_alignParentTop="true"
-    android:layout_alignRight="@+id/button1"
+    android:layout_alignRight="@+id/signup_form_layout"
     android:fastScrollEnabled="true"
     android:scrollbars="vertical"
     android:transcriptMode="alwaysScroll" >
@@ -23,12 +23,12 @@
 <!-- android:stackFromBottom="true" bedzie sie tworzyl stos od dolu - fajne opcja ale nie potrzeban, dodac w listview-->
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/signup_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/listView1"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/button1"
+        android:layout_toLeftOf="@+id/signup_form_layout"
         android:ems="10"
         android:hint="@string/send_hint"
         android:imeActionLabel="@string/button_name"
@@ -36,10 +36,10 @@
         android:inputType="textMultiLine" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/signup_form_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editText1"
+        android:layout_alignBottom="@+id/signup_email"
         android:layout_alignParentRight="true"
         android:onClick="sendMessage"
         android:text="@string/button_name" />
