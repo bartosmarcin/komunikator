@@ -12,5 +12,7 @@
     <string name="password_repeat_label">Repeat password</string>
     <string name="signup_label">Sign up</string>
     <string name="signup_button">Signup now</string>
-    
+    <string name="title_activity_profile_edit">Profile</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

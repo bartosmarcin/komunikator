@@ -6,6 +6,7 @@ import WebService.WebServiceResponse;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,19 +37,18 @@ public class SignUpActivity extends WebServiceActivity {
 		emailField = (EditText) findViewById(R.id.signup_email);
 		passwordField = (EditText) findViewById(R.id.signup_password);
 		passwordRepeatField = (EditText) findViewById(R.id.signup_password_repeat);
-		formLayout = (LinearLayout) findViewById(R.id.signup_form_layout);
 		webService = new WebService(this);
 	}
 
 	public void signUp(View view) {
-		// if(!validateForm())
-		// return;		
+//		if (!validateForm())
+//			return;
 		progressDialog = ProgressDialog.show(this, "Signing up",
 				"Please wait.", true);
 		progressDialog.setCancelable(true);
 		String email = emailField.getText().toString();
 		String password = passwordField.getText().toString();
-		final WebServiceRequest request = webService.signUp(email , password, this);
+		final WebServiceRequest request = webService.signIn(email, password, this);
 		progressDialog.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
@@ -102,15 +102,20 @@ public class SignUpActivity extends WebServiceActivity {
 
 	@Override
 	public void onRequestSuccess(WebServiceResponse response) {
-		if(response.isIsSuccess())
-			//TODO go to next activity
+		progressDialog.dismiss();
+		Intent intent =  new Intent(this, ProfileEditActivity.class); 
+		if (response.isIsSuccess()){
+			webService.setAuthToken((String)response.getResponse());
+			startActivity(intent);
 			return;			
+		}
 		showError(response.getErrors().get(0));
 	}
 
 	@Override
 	public void onRequestFailure() {
-		 showError("Network Error");
+		progressDialog.dismiss();
+		showError("Network Error");
 	}
 
 }
