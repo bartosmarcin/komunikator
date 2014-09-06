@@ -1,4 +1,4 @@
-package com.example.komunikator;
+package komunikator;
 
 import android.app.Application;
 
