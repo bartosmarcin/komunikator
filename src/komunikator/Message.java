@@ -10,7 +10,9 @@ public class Message {
 	private String content;
 	
 	private Long webServiceId;
-	public Long getWebServiceId() {
+
+
+    public Long getWebServiceId() {
 		return webServiceId;
 	}
 	public void setWebServiceId(Long webServiceId) {
