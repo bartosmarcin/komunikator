@@ -20,9 +20,9 @@ import java.util.Map;
 import komunikator.WebServiceActivity;
 
 public class WebService {
-    private final String SIGNUP_URL = "http://192.168.0.15:8000/signup";
-    private final String SIGNIN_URL = "http://192.168.0.15:8000/signin";
-    private final String SEND_MESSAGE_URL = "http://192.168.0.15:8000/new_message";
+    private final String SIGNUP_URL = "http://192.168.0.10:8000/signup";
+    private final String SIGNIN_URL = "http://192.168.0.10:8000/signin";
+    private final String SEND_MESSAGE_URL = "http://192.168.0.10:8000/new_message";
     private static String authToken;
 
     private static RequestQueue requestQueue;

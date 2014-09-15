@@ -29,11 +29,7 @@
         <service android:name="komunikator.NewMessageListener" />
 
         <activity android:name="komunikator.SignUpActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="komunikator.ProfileActivity"
@@ -45,6 +41,15 @@
         <activity
             android:name="komunikator.ProfileEditActivity"
             android:label="@string/title_activity_profile_edit" >
+        </activity>
+        <activity
+            android:name="komunikator.ContactsActivity"
+            android:parentActivityName="komunikator.ProfileEditActivity"
+            android:label="@string/title_activity_contacts" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

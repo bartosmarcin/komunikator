@@ -1,7 +1,5 @@
 package komunikator;
 
-import WebService.WebService;
-import WebService.WebServiceResponse;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,19 +8,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.komunikator.R;
 
+import WebService.WebService;
+import WebService.WebServiceResponse;
+
 public class ProfileEditActivity extends WebServiceActivity {
 	private final int CHOOSE_PICTURE_CODE = 1;
 	private final int CROP_PICTURE = 2;
+    private Button contactsButton;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
+        contactsButton = (Button) findViewById(R.id.signup_button);
 	}
 
 	public void choosePhoto(View view) {
@@ -95,4 +99,9 @@ public class ProfileEditActivity extends WebServiceActivity {
 		// TODO Auto-generated method stub
 		
 	}
+
+    public void chooseContactsButton(View view) {
+        Intent intent = new Intent(this, ContactsActivity.class);
+        startActivity(intent);
+    }
 }

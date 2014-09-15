@@ -11,7 +11,6 @@ public class Message {
 	
 	private Long webServiceId;
 
-
     public Long getWebServiceId() {
 		return webServiceId;
 	}

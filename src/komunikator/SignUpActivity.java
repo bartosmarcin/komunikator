@@ -1,8 +1,5 @@
 package komunikator;
 
-import WebService.WebService;
-import WebService.WebServiceRequest;
-import WebService.WebServiceResponse;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -11,10 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.komunikator.R;
+
+import WebService.WebService;
+import WebService.WebServiceRequest;
+import WebService.WebServiceResponse;
 
 public class SignUpActivity extends WebServiceActivity {
 
@@ -23,7 +23,6 @@ public class SignUpActivity extends WebServiceActivity {
 	private EditText passwordField;
 	private EditText passwordRepeatField;
 	private ProgressDialog progressDialog;
-	private LinearLayout formLayout;
 	private WebService webService;
 
 	private final static int MIN_PASS_LENGTH = 8;
@@ -50,7 +49,6 @@ public class SignUpActivity extends WebServiceActivity {
 		String password = passwordField.getText().toString();
 		final WebServiceRequest request = webService.signIn(email, password, this);
 		progressDialog.setOnCancelListener(new OnCancelListener() {
-			@Override
 			public void onCancel(DialogInterface dialog) {
 				request.cancel();
 			}
@@ -64,7 +62,6 @@ public class SignUpActivity extends WebServiceActivity {
 		errorTextView.setAlpha(0);
 		errorTextView.animate().alpha(1).withLayer();
 		errorTextView.postDelayed(new Runnable() {
-			@Override
 			public void run() {
 				errorTextView.animate().alpha(0);
 			}
