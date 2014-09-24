@@ -16,7 +16,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:uiOptions="splitActionBarWhenNarrow"
+        >
         <activity
             android:name="komunikator.ConversationActivity"
             android:label="@string/app_name"
@@ -45,11 +47,17 @@
         <activity
             android:name="komunikator.ContactsActivity"
             android:parentActivityName="komunikator.ProfileEditActivity"
-            android:label="@string/title_activity_contacts" >
+            android:label="@string/title_activity_contacts"
+            android:theme="@style/android:Theme.Holo.Light"
+            android:uiOptions="splitActionBarWhenNarrow"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                       android:resource="@xml/searchable"/>
         </activity>
     </application>
 
