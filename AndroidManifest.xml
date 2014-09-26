@@ -31,6 +31,10 @@
         <service android:name="komunikator.NewMessageListener" />
 
         <activity android:name="komunikator.SignUpActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -51,15 +55,11 @@
             android:theme="@style/android:Theme.Holo.Light"
             android:uiOptions="splitActionBarWhenNarrow"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
             <meta-data android:name="android.app.searchable"
                        android:resource="@xml/searchable"/>
         </activity>
         <activity android:name="komunikator.ContactDetailsActivity" />
+        <activity android:name="komunikator.SignInActivity"></activity>
     </application>
 
 </manifest>

@@ -32,4 +32,8 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="shared_pref_webservice">komunikator.shared_preferences_webservice</string>
     <string name="shared_pref_webservice_token_fld">shared_pref_webservice_token</string>
+    <string name="already_signed_up_question">Already have an accont?</string>
+    <string name="sign_in_hyperlink">Sign In</string>
+    <string name="signin_button">Sign me in</string>
+    <string name="signin_label">Sign In</string>
 </resources>
