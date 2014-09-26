@@ -24,7 +24,6 @@ public class SignUpActivity extends WebServiceActivity {
 	private EditText passwordField;
 	private EditText passwordRepeatField;
 	private ProgressDialog progressDialog;
-	private WebService webService;
 
 	private final static int MIN_PASS_LENGTH = 8;
 	private final static int MAX_PASS_LENGTH = 60;
@@ -34,15 +33,14 @@ public class SignUpActivity extends WebServiceActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sign_up);
 		signupButton = (Button) findViewById(R.id.signup_button);
-		emailField = (EditText) findViewById(R.id.signup_email);
-		passwordField = (EditText) findViewById(R.id.signup_password);
+		emailField = (EditText) findViewById(R.id.signin_email);
+		passwordField = (EditText) findViewById(R.id.signin_password);
 		passwordRepeatField = (EditText) findViewById(R.id.signup_password_repeat);
 	}
-	
+
 	@Override
 	public void onStart(){
 		super.onStart();
-		webService = new WebService(this);
 		if(webService.isSignedIn()){
 			Intent intent =  new Intent(this, ProfileEditActivity.class);
 			startActivity(intent);
@@ -64,18 +62,10 @@ public class SignUpActivity extends WebServiceActivity {
 			}
 		});
 	}
-
-	private void showError(final String message) {
-		final TextView errorTextView = (TextView) findViewById(R.id.error_text_view);
-		errorTextView.setText(message);
-		errorTextView.setVisibility(View.VISIBLE);
-		errorTextView.setAlpha(0);
-		errorTextView.animate().alpha(1).withLayer();
-		errorTextView.postDelayed(new Runnable() {
-			public void run() {
-				errorTextView.animate().alpha(0);
-			}
-		}, 3000);
+	
+	public void goToSignInActivity(View view){
+		Intent intent =  new Intent(this, SignInActivity.class); 
+		startActivity(intent);
 	}
 
 	private boolean validateForm() {
