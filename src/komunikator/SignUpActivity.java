@@ -109,17 +109,11 @@ public class SignUpActivity extends WebServiceActivity {
 
 	@Override
 	public void onRequestSuccess(WebServiceResponse response) {
+		progressDialog.dismiss();
 		if (!response.isIsSuccess()){
-			progressDialog.dismiss();
 			showError(response.getErrors().get(0));
 			return;
 		}
-		if(!webService.isSignedIn()){
-			webService.signIn(emailField.getText().toString(), 
-					passwordField.getText().toString(), this);
-			return;
-		}
-		progressDialog.dismiss();
 		Intent intent =  new Intent(this, ProfileEditActivity.class); 
 		webService.setAuthToken((String)response.getResponse());
 		startActivity(intent);
