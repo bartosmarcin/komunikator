@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -69,11 +70,15 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
         final ListView contactsList = (ListView) findViewById(R.id.listView);
         contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Toast.makeText(getApplicationContext(),
-                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                        .show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ContactsActivity.this, ContactDetailsActivity.class);
+                //TODO define constant in main activity
+                intent.putExtra("ContactDetail", position);
+                startActivity(intent);
+
+//                Toast.makeText(getApplicationContext(),
+//                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
+//                        .show();
             }
         });
 
