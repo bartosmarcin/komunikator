@@ -4,7 +4,7 @@
     android:id="@+id/relativeCon"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:padding="6dip" >
+    android:padding="6dip">
 
     <ImageView
         android:id="@+id/contacts_icon"
@@ -38,5 +38,16 @@
         android:layout_toRightOf="@id/contacts_icon"
         android:gravity="center_vertical"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/contacts_status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="6dip"
+        android:contentDescription="ContactStatusIcon"
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>
