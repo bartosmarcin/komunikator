@@ -1,6 +1,7 @@
 package WebService;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -10,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.komunikator.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,21 +22,43 @@ import java.util.Map;
 import komunikator.WebServiceActivity;
 
 public class WebService {
-    private final String SIGNUP_URL = "http://192.168.0.10:8000/signup";
-    private final String SIGNIN_URL = "http://192.168.0.10:8000/signin";
-    private final String SEND_MESSAGE_URL = "http://192.168.0.10:8000/new_message";
+    private final String SIGNUP_URL = "http://192.168.1.100:8000/signup";
+    private final String SIGNIN_URL = "http://192.168.1.100:8000/signin";
+    private final String SEND_MESSAGE_URL = "http://192.168.1.100:8000/new_message";
     private static String authToken;
 
     private static RequestQueue requestQueue;
+    private Context context;
 
     public WebService(Context context) {
+    	this.context = context;
         if (requestQueue == null)
             requestQueue = Volley.newRequestQueue(context
                     .getApplicationContext());
+        authToken = getAuthTokenFromSharedPref();        
     }
 
     public void setAuthToken(String token) {
         authToken = token;
+        SharedPreferences pref = context.getSharedPreferences(
+        		context.getResources().getString(R.string.shared_pref_webservice), 
+        		context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(context.getString(R.string.shared_pref_webservice_token_fld), token);
+        editor.commit();
+    }
+    
+    public String getAuthTokenFromSharedPref(){
+    	SharedPreferences pref = context.getSharedPreferences(
+        		context.getResources().getString(R.string.shared_pref_webservice), 
+        		context.MODE_PRIVATE);
+    	return pref.getString(context.getResources()
+    			.getString(R.string.shared_pref_webservice_token_fld), null);
+    }
+    
+    public boolean isSignedIn(){
+    	// TODO zastanowic sie nad jakims zapytaniem do serwera
+    	return authToken != null;
     }
 
     public WebServiceRequest signUp(final String email, final String password,

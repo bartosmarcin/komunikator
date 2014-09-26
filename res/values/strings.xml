@@ -25,4 +25,6 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="shared_pref_webservice">komunikator.shared_preferences_webservice</string>
+    <string name="shared_pref_webservice_token_fld">shared_pref_webservice_token</string>
 </resources>
