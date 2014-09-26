@@ -16,46 +16,26 @@
         android:visibility="invisible" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="9.42"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/signup_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="@string/signup_label"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@id/signup_form_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="60"
         android:orientation="vertical" >
-
-        <EditText
-            android:id="@+id/signup_email"
+        
+        <TextView
+            android:id="@+id/signup_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/email_label"
-            android:inputType="textEmailAddress"
-            android:visibility="visible" />
+            android:gravity="center"
+            android:text="@string/signup_label"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <EditText
-            android:id="@+id/signup_password"
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/password_label"
-            android:inputType="textPassword"
-            android:visibility="visible" />
-
+            android:layout_height="20dp" />
+     
+        <include layout="@layout/sign_in_form" />
         <EditText
             android:id="@+id/signup_password_repeat"
             android:layout_width="match_parent"
@@ -68,7 +48,7 @@
             <requestFocus />
         </EditText>
 
-        <Button
+          <Button
             android:id="@+id/signup_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,6 +59,24 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/already_signed_up_question" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="goToSignInActivity"
+			android:clickable="true"
+            android:text="@string/sign_in_hyperlink"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
