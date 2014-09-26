@@ -15,6 +15,11 @@
     <string name="title_activity_profile_edit">Profile</string>
     <string name="title_activity_contacts">Contacts</string>
     <string name="hello_world">Hello world!</string>
+    <string name="action_search">Search</string>
+    <string name="action_search_hint">Serach Contacts</string>
+    <string name="action_compose">Talk</string>
+    <string name="action_add_contact_list">Add</string>
+    <string name="action_delete_contact_list">Delete</string>
 
     <string-array name="items">
         <item>Profil</item>
