@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +37,16 @@ public class SignUpActivity extends WebServiceActivity {
 		emailField = (EditText) findViewById(R.id.signup_email);
 		passwordField = (EditText) findViewById(R.id.signup_password);
 		passwordRepeatField = (EditText) findViewById(R.id.signup_password_repeat);
+	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
 		webService = new WebService(this);
+		if(webService.isSignedIn()){
+			Intent intent =  new Intent(this, ProfileEditActivity.class);
+			startActivity(intent);
+		}			
 	}
 
 	public void signUp(View view) {
@@ -47,7 +57,7 @@ public class SignUpActivity extends WebServiceActivity {
 		progressDialog.setCancelable(true);
 		String email = emailField.getText().toString();
 		String password = passwordField.getText().toString();
-		final WebServiceRequest request = webService.signIn(email, password, this);
+		final WebServiceRequest request = webService.signUp(email, password, this);
 		progressDialog.setOnCancelListener(new OnCancelListener() {
 			public void onCancel(DialogInterface dialog) {
 				request.cancel();
@@ -99,14 +109,21 @@ public class SignUpActivity extends WebServiceActivity {
 
 	@Override
 	public void onRequestSuccess(WebServiceResponse response) {
+		if (!response.isIsSuccess()){
+			progressDialog.dismiss();
+			showError(response.getErrors().get(0));
+			return;
+		}
+		if(!webService.isSignedIn()){
+			webService.signIn(emailField.getText().toString(), 
+					passwordField.getText().toString(), this);
+			return;
+		}
 		progressDialog.dismiss();
 		Intent intent =  new Intent(this, ProfileEditActivity.class); 
-		if (response.isIsSuccess()){
-			webService.setAuthToken((String)response.getResponse());
-			startActivity(intent);
-			return;			
-		}
-		showError(response.getErrors().get(0));
+		webService.setAuthToken((String)response.getResponse());
+		startActivity(intent);
+		return;	
 	}
 
 	@Override
@@ -114,5 +131,4 @@ public class SignUpActivity extends WebServiceActivity {
 		progressDialog.dismiss();
 		showError("Network Error");
 	}
-
 }

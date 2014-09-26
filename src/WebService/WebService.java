@@ -1,5 +1,13 @@
 package WebService;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import komunikator.WebServiceActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -13,19 +21,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.komunikator.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import komunikator.WebServiceActivity;
-
 public class WebService {
-    private final String SIGNUP_URL = "http://192.168.1.100:8000/signup";
-    private final String SIGNIN_URL = "http://192.168.1.100:8000/signin";
-    private final String SEND_MESSAGE_URL = "http://192.168.1.100:8000/new_message";
-    private static String authToken;
+   private final String SIGNUP_URL = "http://192.168.0.15:8000/signup";
+	private final String SIGNIN_URL = "http://192.168.0.15:8000/signin";
+	private final String SEND_MESSAGE_URL = "http://192.168.0.15:8000/new_message";
+	private static String authToken;
 
     private static RequestQueue requestQueue;
     private Context context;
