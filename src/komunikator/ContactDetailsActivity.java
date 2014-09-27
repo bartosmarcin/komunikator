@@ -14,5 +14,7 @@ public class ContactDetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_detail_activity);
 
+        //get back to parent activity (defined in manifest)
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
