@@ -23,7 +23,7 @@
 <!-- android:stackFromBottom="true" bedzie sie tworzyl stos od dolu - fajne opcja ale nie potrzeban, dodac w listview-->
 
     <EditText
-        android:id="@+id/signup_email"
+        android:id="@+id/signin_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/listView1"
@@ -39,7 +39,7 @@
         android:id="@+id/signup_form_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/signup_email"
+        android:layout_alignBottom="@+id/signin_email"
         android:layout_alignParentRight="true"
         android:onClick="sendMessage"
         android:text="@string/button_name" />

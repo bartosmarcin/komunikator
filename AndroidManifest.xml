@@ -43,11 +43,11 @@
                 android:value="komunikator.SignUpActivity" />
         </activity>
         <activity
-            android:name="komunikator.ProfileEditActivity"
+            android:name="komunikator.profile.ProfileEditActivity"
             android:label="@string/title_activity_profile_edit"></activity>
         <activity
             android:name="komunikator.ContactsActivity"
-            android:parentActivityName="komunikator.ProfileEditActivity"
+            android:parentActivityName="komunikator.profile.ProfileEditActivity"
             android:label="@string/title_activity_contacts"
             android:theme="@style/android:Theme.Holo.Light"
             android:uiOptions="splitActionBarWhenNarrow">

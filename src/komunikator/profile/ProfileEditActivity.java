@@ -1,6 +1,6 @@
 package komunikator.profile;
 
-import komunikator.ContactsActivity;
+import komunikator.contacts.ContactsActivity;
 import komunikator.RoundedAvatarDrawable;
 import komunikator.WebServiceActivity;
 import android.content.Intent;

@@ -1,5 +1,6 @@
 package komunikator.utils;
 
+import komunikator.contacts.ContactsDAO;
 import komunikator.profile.ProfileDAO;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,15 +19,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		new ProfileDAO(context).createTable(db);		
+		new ProfileDAO(context).createTable(db);
+        new ContactsDAO(context).createTable(db);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		new ProfileDAO(context).dropTable(db);
+        new ContactsDAO(context).dropTable(db);
 		onCreate(db);
 	}
-	
-	
 
 }
