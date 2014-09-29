@@ -33,10 +33,14 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 	public T getById(long id) {
 		if (db==null || !db.isOpen())
 			openWriteableDatabase();
-		String query = "select * from " + tabDef.getTableName() + " where "
-				+ TableDefinition.idColumnName + "=?;";
-		String[] args = { String.valueOf(id) };
-		Cursor cursor = db.rawQuery(query, args);
+		Cursor cursor = db.query(
+				tabDef.getTableName(),
+				null, 
+				TableDefinition.idColumnName+"=?", 
+				new String[]{ String.valueOf(id) },
+				null,
+				null,
+				null);		
 		if (cursor.getCount() != 1)
 			return null;
 		cursor.moveToFirst();
@@ -45,26 +49,42 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 		return Obj;
 	}
 	
-	public List<T> listAll(){
+	public List<T> listAll(){		
+		return list(null, null, null);
+	}
+	
+	private List<T> list(String whereQuery, String[] whereArgs, String orderBy){
 		if (db == null || !db.isOpen())
 			openReadableDatabase();
-		String query = "Select * from "+tabDef.getTableName();
-		Cursor cursor = db.rawQuery(query, null);
+		Cursor cursor = db.query(tabDef.getTableName(),
+				null, 
+				whereQuery, 
+				whereArgs, 
+				null, 
+				null,
+				orderBy);
 		return cursorToList(cursor);
 	}
 	
-	public List<T> listLike(Object val, String... columnNames){
-		StringBuilder query = new StringBuilder("Select * form "+tabDef.getTableName());
+	public List<T> searchString(Object val, String... columnNames){
 		if(columnNames.length < 1)
 			return null;
-		String[] likes = new String[columnNames.length];
-		query.append(columnNames[0]+" LIKE  %?% ");
-		for(int i=1; i<columnNames.length-1; i++){
-			query.append(" or " + columnNames[i]+ " ? ");
-			likes[i]=val.toString();
-		}
-		String lol = query.toString();
-		return null;
+		String query = buildSearchQuery(columnNames);
+		String[] params = new String[columnNames.length];
+		for(int i=0; i<params.length; i++)
+			params[i] = "%"+val+"%";
+		return list(query, 
+				params,
+				null);
+	}
+	
+	private String buildSearchQuery(String... columns){
+		if(columns.length < 1)
+			return null;
+		StringBuilder query = new StringBuilder(columns[0] + " LIKE ? ");
+		for(int i=1; i< columns.length; i++)
+			query.append("OR "+columns[i]+" LIKE ? ");	
+		return query.toString();
 	}
 	
 	private List<T> cursorToList(Cursor cursor){
@@ -74,6 +94,7 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 			results.add(cursorToObject(cursor));
 			cursor.moveToNext();
 		}
+		cursor.close();
 		return results;	
 	}	
 	
