@@ -115,6 +115,44 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 		return obj;
 	}
 	
+	public T update(T obj){
+		ContentValues values = ObjectToContentValues(obj);
+		if (db == null || !db.isOpen() || db.isReadOnly())
+			openWriteableDatabase();
+		String whereQuery=TableDefinition.idColumnName+"=?";
+		String[] whereParams = {String.valueOf(obj.getId())};
+		int n = db.update(
+				tabDef.getTableName(), 
+				values, 
+				whereQuery, 
+				whereParams);
+		if(n<1)
+			return null;
+		return obj;
+	}
+	
+	public T addOrUpdate(T obj){
+		if(obj.getId() == null)
+			return add(obj);
+		T existing = getById(obj.getId());
+		if(existing == null)
+			return add(obj);
+		return update(obj);
+	}
+	
+	public void delete(T obj){
+		if(obj.getId() == null)
+			return;
+		if (db == null || !db.isOpen() || db.isReadOnly())
+			openWriteableDatabase();
+		String idQuery = "id=?";
+		String[] params={String.valueOf(obj.getId())};		
+		db.delete(
+				tabDef.getTableName(), 
+				idQuery, 
+				params);
+	}
+	
 	protected abstract T cursorToObject(Cursor cursor);	
 
 	protected abstract ContentValues ObjectToContentValues(T obj);
