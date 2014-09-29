@@ -28,8 +28,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/profile_last_name" />
+        android:hint="@string/profile_last_name"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/profile_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="saveProfile"
+        android:text="@string/profile_save_button" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
