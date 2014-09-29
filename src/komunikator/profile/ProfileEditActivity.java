@@ -1,15 +1,17 @@
 package komunikator.profile;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import komunikator.RoundedAvatarDrawable;
 import komunikator.WebServiceActivity;
 import komunikator.contacts.ContactsActivity;
 import komunikator.utils.SharedPreferencesManager;
-import WebService.WebService;
 import WebService.WebServiceResponse;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,7 +31,8 @@ public class ProfileEditActivity extends WebServiceActivity {
 	private Button contactsButton;
 	private EditText firstNameFld;
 	private EditText lastNameFld;
-    
+	ImageView profileImageView;
+	
     private String userProfileIdSharedPrefField = "user_profile_id_shared_pref_field";
     private Profile userProfile;
 
@@ -40,6 +43,7 @@ public class ProfileEditActivity extends WebServiceActivity {
         contactsButton = (Button) findViewById(R.id.signup_button);
     	firstNameFld = (EditText)findViewById(R.id.profile_first_name_field);
     	lastNameFld = (EditText)findViewById(R.id.profile_last_name_field);
+    	profileImageView = (ImageView) findViewById(R.id.profile_picture);
     	
         userProfile = getUserProfile();
         if(userProfile != null){
@@ -56,6 +60,7 @@ public class ProfileEditActivity extends WebServiceActivity {
 		profile.setLastName(lastNameFld.getText().toString());
 		profile = new ProfileDAO(this).addOrUpdate(profile);
 		SharedPreferencesManager.putLong(userProfileIdSharedPrefField, profile.getId(), this);
+		getActionBar().setIcon(profileImageView.getDrawable());
 	}
 	
 	private Profile getUserProfile(){
@@ -92,7 +97,6 @@ public class ProfileEditActivity extends WebServiceActivity {
 			Bundle extras = intent.getExtras();
 			Bitmap bitmap = extras.getParcelable("data");
 			RoundedAvatarDrawable avatar = new RoundedAvatarDrawable(bitmap);
-			ImageView profileImageView = (ImageView) findViewById(R.id.profile_picture);
 			profileImageView.setImageDrawable(avatar);
 		}
 	}
@@ -140,7 +144,9 @@ public class ProfileEditActivity extends WebServiceActivity {
         startActivity(intent);
     }
     
-    private void saveAvatar(ImageView avatar, String filename){
-    	
+    private void saveProfileImage(String filePath) throws FileNotFoundException{
+    	FileOutputStream out = new FileOutputStream(filePath);
+    	Bitmap bitmap = profileImageView.getDrawingCache();
+    	bitmap.compress(CompressFormat.JPEG, 90, out);
     }
 }
