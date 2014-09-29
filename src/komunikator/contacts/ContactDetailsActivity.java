@@ -1,4 +1,4 @@
-package komunikator;
+package komunikator.contacts;
 
 import android.app.Activity;
 import android.os.Bundle;

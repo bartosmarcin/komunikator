@@ -1,4 +1,4 @@
-package komunikator;
+package komunikator.contacts;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -11,17 +11,21 @@ import android.widget.TextView;
 
 import com.example.komunikator.R;
 
+import java.util.List;
+
 /**
  * @author Rafał Zawadzki
  */
 public class ContactsListAdapter extends ArrayAdapter<String> {
     private final Context context;
-    private final String[] values;
+    private final String[] names;
+    private final String[] organization;
 
-    public ContactsListAdapter(Context context, String[] values) {
-        super(context, R.layout.contacts_list_item, values);
+    public ContactsListAdapter(Context context, String[] names, String[] organization) {
+        super(context, R.layout.contacts_list_item, names);
         this.context = context;
-        this.values = values;
+        this.names = names;
+        this.organization = organization;
     }
 
     @Override
@@ -37,14 +41,14 @@ public class ContactsListAdapter extends ArrayAdapter<String> {
         ImageView StatusImageView = (ImageView) rowView.findViewById(R.id.contacts_status_icon);
 
         //TODO status onlline or offline icon
-        if (values[position].equals("Siwek") || values[position].equals("Siwek2")) {
+        if (names[position].equals("Siwek") || names[position].equals("Siwek2")) {
             StatusImageView.setImageResource(R.drawable.ic_action_stop);
         } else {
             StatusImageView.setImageResource(R.drawable.ic_action_flash_on);
         }
         imageView.setImageResource(R.drawable.ic_action_person);
-        textView.setText(values[position]);
-        textView2.setText("organizacja/grupa");
+        textView.setText(names[position]);
+        textView2.setText(organization[position]);
 
         return rowView;
     }

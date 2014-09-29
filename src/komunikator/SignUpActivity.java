@@ -16,6 +16,7 @@ import com.example.komunikator.R;
 import WebService.WebService;
 import WebService.WebServiceRequest;
 import WebService.WebServiceResponse;
+import komunikator.profile.ProfileEditActivity;
 
 public class SignUpActivity extends WebServiceActivity {
 

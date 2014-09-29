@@ -2,6 +2,8 @@ package komunikator;
 
 import WebService.WebServiceRequest;
 import WebService.WebServiceResponse;
+import komunikator.profile.ProfileEditActivity;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;

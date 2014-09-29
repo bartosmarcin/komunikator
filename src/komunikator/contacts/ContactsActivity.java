@@ -1,7 +1,6 @@
-package komunikator;
+package komunikator.contacts;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,12 +8,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.ActionProvider;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,11 +22,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.komunikator.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import komunikator.utils.DatabaseHelper;
 
 /**
  * @author Rafał Zawadzki
@@ -40,18 +40,15 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private SimpleCursorAdapter mAdapter;
+    private List<Contact> searchContactList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contacts);
 
-        // get list items from strings.xml
         drawerListViewItems = getResources().getStringArray(R.array.items);
-        // get ListView defined in contacts.xml
         drawerListView = (ListView) findViewById(R.id.left_drawer);
-        // Set the adapter for the list view
         drawerListView.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_listview_item, drawerListViewItems));
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -66,7 +63,6 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         final ListView contactsList = (ListView) findViewById(R.id.listView);
         contactsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -75,10 +71,6 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
                 //TODO define constant in main activity
                 intent.putExtra("ContactDetail", position);
                 startActivity(intent);
-
-//                Toast.makeText(getApplicationContext(),
-//                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-//                        .show();
             }
         });
 
@@ -90,14 +82,32 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
         progressBar.setIndeterminate(true);
         contactsList.setEmptyView(progressBar);
 
-        String[] names = new String[]{"Bartos", "Laskowski", "Siwek", "Bartos2", "Laskowski2", "Siwek2"};
-        ContactsListAdapter adapter = new ContactsListAdapter(this, names);
+        // Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            System.out.println("QUERY:" + query); //TODO delete
+            //  searchContactList = baseManager.searchContacts(query, "name");
+        }
+
+        DatabaseHelper baseManager = new DatabaseHelper(this);
+        Contact tmpCont = new Contact();
+        tmpCont.setOrganization("PW");
+        tmpCont.setAvailability("1");
+        ContactsDAO con = new ContactsDAO(this);
+        con.add(tmpCont);
+        List<Contact> listToShow;
+        listToShow = con.listAll();
+
+        String[] org = new String[1];
+        for (Contact n : listToShow) {
+            ArrayList<String> tmp = new ArrayList<>();
+            tmp.add(n.getOrganization());
+            tmp.toArray(org);
+        }
+        String[] second = new String[1];
+        ContactsListAdapter adapter = new ContactsListAdapter(this, org, second);
         contactsList.setAdapter(adapter);
-
-        // Prepare the loader.  Either re-connect with an existing one,
-        // or start a new one. LISTVIEW TUTORIAL
-        getLoaderManager().initLoader(0, null, this);
-
     }
 
     @Override
@@ -121,7 +131,6 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.contacts_action_bar, menu);
-//        menu.findItem(R.id.action_compose).setActionProvider(android.view.MenuItem, ActionProvider);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
@@ -152,6 +161,5 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
             drawerLayout.closeDrawer(drawerListView);
         }
     }
-
 
 }
