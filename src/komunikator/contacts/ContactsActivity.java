@@ -101,7 +101,7 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
 
         String[] org = new String[1];
         for (Contact n : listToShow) {
-            ArrayList<String> tmp = new ArrayList<>();
+            ArrayList<String> tmp = new ArrayList<String>();
             tmp.add(n.getOrganization());
             tmp.toArray(org);
         }
