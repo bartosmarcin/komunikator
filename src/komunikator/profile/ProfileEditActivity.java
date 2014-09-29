@@ -1,5 +1,8 @@
-package komunikator;
+package komunikator.profile;
 
+import komunikator.ContactsActivity;
+import komunikator.RoundedAvatarDrawable;
+import komunikator.WebServiceActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
