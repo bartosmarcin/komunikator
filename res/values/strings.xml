@@ -36,4 +36,6 @@
     <string name="sign_in_hyperlink">Sign In</string>
     <string name="signin_button">Sign me in</string>
     <string name="signin_label">Sign In</string>
+    <string name="profile_first_name">First Name</string>
+    <string name="profile_last_name">Last Name</string>
 </resources>
