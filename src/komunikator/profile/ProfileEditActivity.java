@@ -1,9 +1,13 @@
 package komunikator.profile;
 
-import komunikator.contacts.ContactsActivity;
 import komunikator.RoundedAvatarDrawable;
 import komunikator.WebServiceActivity;
+import komunikator.contacts.ContactsActivity;
+import komunikator.utils.SharedPreferencesManager;
+import WebService.WebService;
+import WebService.WebServiceResponse;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,37 +16,66 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.komunikator.R;
 
-import WebService.WebService;
-import WebService.WebServiceResponse;
-
 public class ProfileEditActivity extends WebServiceActivity {
 	private final int CHOOSE_PICTURE_CODE = 1;
 	private final int CROP_PICTURE = 2;
-    private Button contactsButton;
+
+	private Button contactsButton;
+	private EditText firstNameFld;
+	private EditText lastNameFld;
+    
+    private String userProfileIdSharedPrefField = "user_profile_id_shared_pref_field";
+    private Profile userProfile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
         contactsButton = (Button) findViewById(R.id.signup_button);
+    	firstNameFld = (EditText)findViewById(R.id.profile_first_name_field);
+    	lastNameFld = (EditText)findViewById(R.id.profile_last_name_field);
+    	
+        userProfile = getUserProfile();
+        if(userProfile != null){
+        	firstNameFld.setText(userProfile.getFirstName());
+        	lastNameFld.setText(userProfile.getLastName());
+        }
+	}
+	
+	public void saveProfile(View view){
+		Profile profile = getUserProfile();
+		if(profile == null)
+			profile = new Profile();
+		profile.setFirstName(firstNameFld.getText().toString());
+		profile.setLastName(lastNameFld.getText().toString());
+		profile = new ProfileDAO(this).addOrUpdate(profile);
+		SharedPreferencesManager.putLong(userProfileIdSharedPrefField, profile.getId(), this);
+	}
+	
+	private Profile getUserProfile(){
+		Long userProfileId = SharedPreferencesManager.getLong(userProfileIdSharedPrefField, this);
+		if(userProfileId == null)
+			return null;
+		return new ProfileDAO(this).getById(userProfileId);
 	}
 
 	public void choosePhoto(View view) {
 		Intent i = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(i, CHOOSE_PICTURE_CODE);
-		WebService webService  = new WebService(this);
-		webService.sendMessage("wiad test", this);
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
+		if(resultCode == RESULT_CANCELED)
+			return;
 		if( resultCode != RESULT_OK ){
 			Toast toast = Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT);
 			toast.show();
@@ -62,7 +95,6 @@ public class ProfileEditActivity extends WebServiceActivity {
 			ImageView profileImageView = (ImageView) findViewById(R.id.profile_picture);
 			profileImageView.setImageDrawable(avatar);
 		}
-
 	}
 
 	private void cropPhoto(Uri uri) {
@@ -106,5 +138,9 @@ public class ProfileEditActivity extends WebServiceActivity {
     public void chooseContactsButton(View view) {
         Intent intent = new Intent(this, ContactsActivity.class);
         startActivity(intent);
+    }
+    
+    private void saveAvatar(ImageView avatar, String filename){
+    	
     }
 }
