@@ -1,5 +1,8 @@
 package komunikator.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -29,7 +32,7 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 	}
 	
 	public T getById(long id) {
-		if (!db.isOpen())
+		if (db==null || !db.isOpen())
 			openWriteableDatabase();
 		String query = "select * from " + tableName + " where "
 				+ TableDefinition.idColumnName + "=?;";
@@ -42,8 +45,26 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 		cursor.close();
 		return Obj;
 	}
+	
+	public List<T> listAll(){
+		if (db == null || !db.isOpen())
+			openReadableDatabase();
+		String query = "Select * from "+tableName;
+		Cursor cursor = db.rawQuery(query, null);
+		cursor.moveToFirst();
+		List<T> results = new ArrayList<T>();
+		while(!cursor.isAfterLast()){
+			results.add(cursorToObject(cursor));
+			cursor.moveToNext();
+		}
+		return results;		
+	}
 
 	private void openWriteableDatabase() {
+		db = dbHelper.getWritableDatabase();
+	}
+
+	private void openReadableDatabase() {
 		db = dbHelper.getWritableDatabase();
 	}
 	
