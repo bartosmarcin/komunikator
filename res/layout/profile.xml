@@ -9,6 +9,8 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center"
+        android:maxHeight="@dimen/max_profile_image_height"
+        android:maxWidth="@dimen/max_profile_image_width"
         android:onClick="choosePhoto"
         android:src="@drawable/ic_launcher" />
 
