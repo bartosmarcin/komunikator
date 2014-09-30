@@ -1,6 +1,6 @@
 package komunikator.profile;
 
-import komunikator.RoundedAvatarDrawable;
+import komunikator.BitmapRounder;
 import komunikator.WebServiceActivity;
 import komunikator.contacts.ContactsActivity;
 import komunikator.utils.SharedPreferencesManager;
@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -108,8 +107,7 @@ public class ProfileEditActivity extends WebServiceActivity {
 		if (requestCode == CROP_PICTURE) {
 			Bundle extras = intent.getExtras();
 			Bitmap croped = extras.getParcelable("data");
-			RoundedAvatarDrawable avatar = new RoundedAvatarDrawable(croped);
-			profileImg = avatar.getBitmap();
+			profileImg = BitmapRounder.toCircle(croped);
 			profileImageView.setImageBitmap(profileImg);
 		}
 	}
