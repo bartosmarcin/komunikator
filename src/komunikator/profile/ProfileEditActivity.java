@@ -1,20 +1,14 @@
 package komunikator.profile;
 
-import java.io.File;
-
 import komunikator.RoundedAvatarDrawable;
 import komunikator.WebServiceActivity;
 import komunikator.contacts.ContactsActivity;
 import komunikator.utils.SharedPreferencesManager;
 import WebService.WebServiceResponse;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +18,12 @@ import android.widget.Toast;
 import com.example.komunikator.R;
 
 public class ProfileEditActivity extends WebServiceActivity {
+	
+	public final static String EMAIL_FLD = "EMAIL_FLD";
+	
 	private final int CHOOSE_PICTURE_CODE = 1;
 	private final int CROP_PICTURE = 2;
 
-	private Button contactsButton;
 	private EditText firstNameFld;
 	private EditText lastNameFld;
 	ImageView profileImageView;
@@ -41,7 +37,6 @@ public class ProfileEditActivity extends WebServiceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
-		contactsButton = (Button) findViewById(R.id.signup_button);
 		firstNameFld = (EditText) findViewById(R.id.profile_first_name_field);
 		lastNameFld = (EditText) findViewById(R.id.profile_last_name_field);
 		profileImageView = (ImageView) findViewById(R.id.profile_picture);
@@ -68,6 +63,8 @@ public class ProfileEditActivity extends WebServiceActivity {
 			profile = new Profile();
 		profile.setFirstName(firstNameFld.getText().toString());
 		profile.setLastName(lastNameFld.getText().toString());
+		String email = getIntent().getExtras().getString(EMAIL_FLD);
+		profile.setEmail(email);
 		profile = new ProfileDAO(this).addOrUpdate(profile);
 
 		profileImageView.buildDrawingCache();

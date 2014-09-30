@@ -1,26 +1,20 @@
 package komunikator;
 
+import komunikator.profile.ProfileEditActivity;
+import WebService.WebServiceRequest;
+import WebService.WebServiceResponse;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.komunikator.R;
 
-import WebService.WebService;
-import WebService.WebServiceRequest;
-import WebService.WebServiceResponse;
-import komunikator.profile.ProfileEditActivity;
-
 public class SignUpActivity extends WebServiceActivity {
 
-	private Button signupButton;
 	private EditText emailField;
 	private EditText passwordField;
 	private EditText passwordRepeatField;
@@ -33,7 +27,6 @@ public class SignUpActivity extends WebServiceActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sign_up);
-		signupButton = (Button) findViewById(R.id.signup_button);
 		emailField = (EditText) findViewById(R.id.signin_email);
 		passwordField = (EditText) findViewById(R.id.signin_password);
 		passwordRepeatField = (EditText) findViewById(R.id.signup_password_repeat);
@@ -52,7 +45,7 @@ public class SignUpActivity extends WebServiceActivity {
 //		if (!validateForm())
 //			return;
 		progressDialog = ProgressDialog.show(this, "Signing up",
-				"Please wait.", true);
+					"Please wait.", true);
 		progressDialog.setCancelable(true);
 		String email = emailField.getText().toString();
 		String password = passwordField.getText().toString();
@@ -105,8 +98,9 @@ public class SignUpActivity extends WebServiceActivity {
 			showError(response.getErrors().get(0));
 			return;
 		}
-		Intent intent =  new Intent(this, ProfileEditActivity.class); 
 		webService.setAuthToken((String)response.getResponse());
+		Intent intent =  new Intent(this, ProfileEditActivity.class); 
+		intent.putExtra(ProfileEditActivity.EMAIL_FLD, emailField.getText().toString());
 		startActivity(intent);
 		return;	
 	}
