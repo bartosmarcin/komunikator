@@ -14,10 +14,12 @@ public abstract class BasicDAO<T extends DatabaseObject> {
 	protected TableDefinition tabDef;
 	protected SQLiteOpenHelper dbHelper;
 	private SQLiteDatabase db;
+	protected Context context;
 	
 	public BasicDAO(Context context){
 		dbHelper = new DatabaseHelper(context);
 		tabDef = getTableDefinition();
+		this.context = context;
 	}	
 	
 	protected abstract TableDefinition getTableDefinition();
