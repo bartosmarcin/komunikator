@@ -4,20 +4,11 @@ import komunikator.utils.DatabaseObject;
 
 public class Profile extends DatabaseObject{
 	
-	private Long id = -1L;
 	private String email;
 	private String firstName;
 	private String lastName;
 	private String nickName;
 
-	public Long getId() {
-		return id == -1? null : id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-	
 	public String getEmail() {
 		return email;
 	}
