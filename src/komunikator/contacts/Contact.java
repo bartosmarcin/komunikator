@@ -5,19 +5,9 @@ import komunikator.utils.DatabaseObject;
 /**
  * @author Rafał Zawadzki
  */
-public class Contact implements DatabaseObject {
-    private Long id;
+public class Contact extends DatabaseObject {
     private String organization;
     private String availability;
-
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getAvailability() {
         return availability;

@@ -2,7 +2,7 @@ package komunikator.profile;
 
 import komunikator.utils.DatabaseObject;
 
-public class Profile implements DatabaseObject{
+public class Profile extends DatabaseObject{
 	
 	private Long id = -1L;
 	private String email;
