@@ -1,9 +1,15 @@
 package komunikator.utils;
 
-public interface DatabaseObject {
+public class DatabaseObject {
 	
-	public void setId(long id);
+	protected Long id;
 	
-	public Long getId();
+	public void setId(long id){
+		this.id = id;
+	}
+	
+	public Long getId(){
+		return id;
+	}
 
 }

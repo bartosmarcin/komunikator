@@ -25,6 +25,7 @@ public class ProfileEditActivity extends WebServiceActivity {
 
 	private EditText firstNameFld;
 	private EditText lastNameFld;
+	private EditText nicknameFld;
 	ImageView profileImageView;
 	Bitmap profileImg;
 
@@ -38,16 +39,25 @@ public class ProfileEditActivity extends WebServiceActivity {
 		setContentView(R.layout.profile);
 		firstNameFld = (EditText) findViewById(R.id.profile_first_name_field);
 		lastNameFld = (EditText) findViewById(R.id.profile_last_name_field);
+		nicknameFld = (EditText) findViewById(R.id.profile_nickname_field);
 		profileImageView = (ImageView) findViewById(R.id.profile_picture);
 		profileDao = new ProfileDAO(this);
 		userProfile = getUserProfile();
-		if (userProfile != null) {
-			firstNameFld.setText(userProfile.getFirstName());
-			lastNameFld.setText(userProfile.getLastName());
-			profileImg = profileDao.getProfileImage(userProfile.getId());
-			if(profileImg != null)
-				profileImageView.setImageBitmap(profileImg);
-		}
+	}
+	
+	private void fillFieldsFromProfile(){
+		if(userProfile == null)
+			return;
+		firstNameFld.setText(userProfile.getFirstName());
+		lastNameFld.setText(userProfile.getLastName());
+		nicknameFld.setText(userProfile.getNickName());
+		profileImg = profileDao.getProfileImage(userProfile.getId());
+		if(profileImg != null)
+			profileImageView.setImageBitmap(profileImg);
+	}
+	
+	private void fillProfileFromFields(){
+		
 	}
 
 	@Override
@@ -62,11 +72,10 @@ public class ProfileEditActivity extends WebServiceActivity {
 			profile = new Profile();
 		profile.setFirstName(firstNameFld.getText().toString());
 		profile.setLastName(lastNameFld.getText().toString());
-		String email = getIntent().getExtras().getString(EMAIL_FLD);
-		profile.setEmail(email);
+		profile.setNickName(nicknameFld.getText().toString());
+		//String email = getIntent().getExtras().getString(EMAIL_FLD);
+		//profile.setEmail(email);
 		profile = new ProfileDAO(this).addOrUpdate(profile);
-
-		profileImageView.buildDrawingCache();
 		profileDao.saveProfileImage(profileImg, profile.getId());
 		SharedPreferencesManager.putLong(userProfileIdSharedPrefField,
 				profile.getId(), this);
