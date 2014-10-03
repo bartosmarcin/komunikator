@@ -33,13 +33,14 @@ import komunikator.profile.ProfileDAO;
  * @author Rafał Zawadzki
  */
 public class ContactsActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final String EXTRA_MESSAGE = "com.komunikator.ContactsActivity.POSITION_MESSAGE";
     private String[] drawerListViewItems;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private ContactsListAdapter adapter;
     private ListView contactsList;
-    private Menu mMenu;
+    private List<Profile> pSearched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
 
         drawerListViewItems = getResources().getStringArray(R.array.items);
         drawerListView = (ListView) findViewById(R.id.left_drawer);
-        drawerListView.setAdapter(new ArrayAdapter<String>(this,
+        drawerListView.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_listview_item, drawerListViewItems));
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -67,51 +68,57 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ContactsActivity.this, ContactDetailsActivity.class);
-                //TODO define constant in main activity
-                intent.putExtra("ContactDetail", position);
+                Object ContactSQLiteID = contactsList.getItemAtPosition(position);
+                intent.putExtra(EXTRA_MESSAGE, ContactSQLiteID.toString());
                 startActivity(intent);
             }
         });
 
-        Profile tmpProf = new Profile();
-        tmpProf.setFirstName("Marcin");
-        tmpProf.setLastName("Bartos");
+//        Profile tmpProf = new Profile();
+//        tmpProf.setFirstName("Marcin");
+//        tmpProf.setLastName("Bartos");
+//
+//        Profile tmpProf1 = new Profile();
+//        tmpProf1.setFirstName("Laskowski");
+//        tmpProf1.setLastName("Marcin");
+//
+//        Profile tmpProf2 = new Profile();
+//        tmpProf2.setFirstName("Michal");
+//        tmpProf2.setLastName("Siwek");
+//        tmpProf2.setEmail("siwiusz@op.pl");
+//
+//        Contact tmpCont = new Contact();
+//        tmpCont.setOrganization("PW");
+//        tmpCont.setAvailability("1");
+//
+//        Contact tmpCont1 = new Contact();
+//        tmpCont1.setOrganization("PW");
+//        tmpCont1.setAvailability("1");
+//
+//        Contact tmpCont2 = new Contact();
+//        tmpCont2.setOrganization("PW");
+//        tmpCont2.setAvailability("1");
 
-        Profile tmpProf1 = new Profile();
-        tmpProf1.setFirstName("Laskowski");
-        tmpProf1.setLastName("Marcin");
-
-        Profile tmpProf2 = new Profile();
-        tmpProf2.setFirstName("Michal");
-        tmpProf2.setLastName("Siwek");
-
-        Contact tmpCont = new Contact();
-        tmpCont.setOrganization("PW");
-        tmpCont.setAvailability("1");
-
-        Contact tmpCont1 = new Contact();
-        tmpCont1.setOrganization("PW");
-        tmpCont1.setAvailability("1");
-
-        Contact tmpCont2 = new Contact();
-        tmpCont2.setOrganization("PW");
-        tmpCont2.setAvailability("1");
-
-        ContactsDAO con = new ContactsDAO(this);
-        con.add(tmpCont);
-        con.add(tmpCont1);
-        con.add(tmpCont2);
-
-        ProfileDAO pro = new ProfileDAO(this);
-        pro.add(tmpProf);
-        pro.add(tmpProf1);
-        pro.add(tmpProf2);
+//        ContactsDAO con = new ContactsDAO(this);
+//        con.add(tmpCont);
+//        con.add(tmpCont1);
+//        con.add(tmpCont2);
+//
+//        ProfileDAO pro = new ProfileDAO(this);
+//        pro.add(tmpProf);
+//        pro.add(tmpProf1);
+//        pro.add(tmpProf2);
 
         Intent intent = getIntent();
         if (!handleSearchIntent(intent)) {
             listAllContacts();
         }
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleSearchIntent(intent);
     }
 
     @Override
@@ -123,11 +130,18 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
     private Boolean handleSearchIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            if (query.equals("")) {
+                listAllContacts();
+                return true;
+            }
             ProfileDAO pDAO = new ProfileDAO(this);
-            List<Profile> pSearched = pDAO.searchString(query, "first_name", "last_name");
+            pSearched = pDAO.searchString(query, "first_name", "last_name");
             String[] first_line = new String[pSearched.size()];
+            Long[] ids = new Long[pSearched.size()];
+
             for (int i = 0; i < pSearched.size(); i++) {
                 first_line[i] = pSearched.get(i).getFirstName() + " " + pSearched.get(i).getLastName();
+                ids[i] = pSearched.get(i).getId();
             }
             ContactsDAO cDAO = new ContactsDAO(this);
             String[] second_line = new String[pSearched.size()];
@@ -136,7 +150,7 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
                 String org = cDAO.getById(sID).getOrganization();
                 second_line[i] = org;
             }
-            adapter = new ContactsListAdapter(this, first_line, second_line);
+            adapter = new ContactsListAdapter(this, ids, first_line, second_line);
             contactsList.setAdapter(adapter);
             return true;
         }
@@ -145,17 +159,25 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // call ActionBarDrawerToggle.onOptionsItemSelected(), if it returns true
-        // then it has handled the app icon touch event
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_compose:
+                return true;
+            case R.id.action_add_contact_list:
+                Intent intent = new Intent(ContactsActivity.this, ContactAddActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_delete_contacts_list:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        this.mMenu = menu;
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.contacts_action_bar, menu);
@@ -172,7 +194,6 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
                 if (!handleSearchIntent(intent)) {
                     listAllContacts();
                 }
-                (menu.findItem(R.id.action_search)).collapseActionView();
                 return false;
             }
 
@@ -215,10 +236,12 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
         ContactsDAO con = new ContactsDAO(this);
         listToShow = con.listAll();
         String[] org = new String[listToShow.size()]; //TODO add status of availability to adapter
+        Long[] ids = new Long[listToShow.size()];
         for (int i = 0; i < listToShow.size(); i++) {
             org[i] = listToShow.get(i).getOrganization();
+            ids[i] = listToShow.get(i).getId();
         }
-        adapter = new ContactsListAdapter(this, proList, org);
+        adapter = new ContactsListAdapter(this, ids, proList, org);
         contactsList.setAdapter(adapter);
     }
 

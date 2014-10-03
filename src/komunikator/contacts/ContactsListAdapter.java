@@ -16,16 +16,18 @@ import java.util.List;
 /**
  * @author Rafał Zawadzki
  */
-public class ContactsListAdapter extends ArrayAdapter<String> {
+public class ContactsListAdapter extends ArrayAdapter<Long> {
     private final Context context;
     private String[] names;
     private String[] organization;
+    private Long[] ids;
 
-    public ContactsListAdapter(Context context, String[] names, String[] organization) {
-        super(context, R.layout.contacts_list_item, names);
+    public ContactsListAdapter(Context context, Long[] ids, String[] names, String[] organization) {
+        super(context, R.layout.contacts_list_item, ids);
         this.context = context;
         this.names = names;
         this.organization = organization;
+        this.ids = ids;
     }
 
     @Override
