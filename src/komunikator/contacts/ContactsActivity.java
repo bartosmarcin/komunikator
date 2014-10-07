@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.method.CharacterPickerDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ import komunikator.profile.ProfileDAO;
  * @author Rafał Zawadzki
  */
 public class ContactsActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final Integer ADD_CONTACT_CODE = 1;
     public static final String EXTRA_MESSAGE = "com.komunikator.ContactsActivity.POSITION_MESSAGE";
     private String[] drawerListViewItems;
     private ListView drawerListView;
@@ -130,10 +132,6 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
     private Boolean handleSearchIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            if (query.equals("")) {
-                listAllContacts();
-                return true;
-            }
             ProfileDAO pDAO = new ProfileDAO(this);
             pSearched = pDAO.searchString(query, "first_name", "last_name");
             String[] first_line = new String[pSearched.size()];
@@ -167,7 +165,7 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
                 return true;
             case R.id.action_add_contact_list:
                 Intent intent = new Intent(ContactsActivity.this, ContactAddActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD_CONTACT_CODE);
                 return true;
             case R.id.action_delete_contacts_list:
                 return true;
@@ -189,7 +187,7 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
             public boolean onQueryTextSubmit(String query) {
                 searchView.setIconified(true);
                 searchView.clearFocus();
-
+                searchView.setQuery(query, false);
                 Intent intent = getIntent();
                 if (!handleSearchIntent(intent)) {
                     listAllContacts();
@@ -199,9 +197,14 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    listAllContacts();
+                    return true;
+                }
                 return false;
             }
         });
+
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
@@ -249,6 +252,15 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Toast.makeText(ContactsActivity.this, ((TextView) view).getText(), Toast.LENGTH_LONG).show();
             drawerLayout.closeDrawer(drawerListView);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //what to do if contact is added (message from different activiti)
+        if (requestCode == ADD_CONTACT_CODE) {
+            if (resultCode == RESULT_OK) {
+                listAllContacts();
+            }
         }
     }
 
