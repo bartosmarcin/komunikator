@@ -72,7 +72,7 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
                 Intent intent = new Intent(ContactsActivity.this, ContactDetailsActivity.class);
                 Object ContactSQLiteID = contactsList.getItemAtPosition(position);
                 intent.putExtra(EXTRA_MESSAGE, ContactSQLiteID.toString());
-                startActivity(intent);
+                startActivityForResult(intent, ContactDetailsActivity.EDIT_CONTACT_CODE);
             }
         });
 
@@ -116,6 +116,15 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
             listAllContacts();
         }
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //what to do if contact is added (message from different activiti)
+        if (requestCode == ADD_CONTACT_CODE || requestCode == ContactDetailsActivity.EDIT_CONTACT_CODE) {
+            if (resultCode == RESULT_OK) {
+                listAllContacts();
+            }
+        }
     }
 
     @Override
@@ -252,15 +261,6 @@ public class ContactsActivity extends Activity implements LoaderManager.LoaderCa
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Toast.makeText(ContactsActivity.this, ((TextView) view).getText(), Toast.LENGTH_LONG).show();
             drawerLayout.closeDrawer(drawerListView);
-        }
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //what to do if contact is added (message from different activiti)
-        if (requestCode == ADD_CONTACT_CODE) {
-            if (resultCode == RESULT_OK) {
-                listAllContacts();
-            }
         }
     }
 

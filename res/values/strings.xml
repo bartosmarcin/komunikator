@@ -21,7 +21,7 @@
     <string name="action_add_contact_list">Add</string>
     <string name="action_delete_contact_list">Delete</string>
     <string name="action_done">Done</string>
-
+    <string name="action_edit_contact">Edit</string>
     <string-array name="items">
         <item>Profil</item>
         <item>Conversations</item>

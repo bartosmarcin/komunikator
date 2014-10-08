@@ -24,13 +24,20 @@ import komunikator.profile.ProfileDAO;
  * @author Rafał Zawadzki
  */
 public class ContactAddActivity extends Activity {
-    HashMap<String,String> formPools;
+    HashMap<String, String> formPools;
+    Boolean editionMode = false;
+    Long editContactID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact_add_activity);
 
+        Intent intent = getIntent();
+        editionMode = intent.getBooleanExtra(ContactDetailsActivity.CONTACT_EDITION, false);
+        if (editionMode) {
+            establishValues();
+        }
         //get back to parent activity (defined in manifest)
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -55,14 +62,57 @@ public class ContactAddActivity extends Activity {
             formPools.put("nickname", nickname.getText().toString());
             EditText email = (EditText) findViewById(R.id.edit_email);
             formPools.put("email", email.getText().toString());
-            addToBase();
             Intent intent = getIntent();
-            intent.putExtra(String.valueOf(ContactsActivity.ADD_CONTACT_CODE), "contactAdded");
-            setResult(RESULT_OK, intent);
+            if (editionMode) {
+                updateContact();
+                setResult(RESULT_OK, intent); // for ContactDetailsActivity
+            } else {
+                addToBase();
+                intent.putExtra(String.valueOf(ContactsActivity.ADD_CONTACT_CODE), "contactAdded");
+                setResult(RESULT_OK, intent); // for ContactsActivity
+            }
             finish();
             return true;
         }
         return false;
+    }
+
+    private void establishValues() {
+        Intent intent = getIntent();
+        editContactID = intent.getLongExtra(ContactDetailsActivity.CONTACT_ID_EDITION, new Long(-1));
+        if (!editContactID.equals(-1)) {
+            ContactsDAO cDAO = new ContactsDAO(this);
+            Contact tmpC = cDAO.getById(editContactID);
+
+            ProfileDAO pDAO = new ProfileDAO(this);
+            Profile tmpP = pDAO.getById(editContactID);
+
+            EditText nameSurname = (EditText) findViewById(R.id.edit_name_surname);
+            nameSurname.setText(tmpP.getFirstName() + " " + tmpP.getLastName());
+
+            EditText group = (EditText) findViewById(R.id.edit_group);
+            group.setText(tmpC.getOrganization());
+
+            EditText nickname = (EditText) findViewById(R.id.edit_nickname);
+            nickname.setText(tmpP.getNickName());
+
+            EditText email = (EditText) findViewById(R.id.edit_email);
+            email.setText(tmpP.getEmail());
+
+        }
+    }
+
+    private void updateContact() {
+        //ContactsDAO cDAO = new ContactsDAO(this);
+        //Contact c = cDAO.getById(editContactID);
+        //Contact tmpC = cDAO.update(c);
+
+        ProfileDAO pDAO = new ProfileDAO(this);
+        Profile tmpP = pDAO.getById(editContactID);
+        String[] names = formPools.get("names").split(" ");
+        tmpP.setFirstName(names[0]);
+        tmpP.setLastName(names[1]);
+        pDAO.update(tmpP);
     }
 
     private void addToBase() {
